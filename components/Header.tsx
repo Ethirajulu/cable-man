@@ -4,8 +4,6 @@ import * as Icons from "@ant-design/icons";
 import Search from "antd/lib/input/Search";
 import { Spring } from "react-spring/renderprops.cjs";
 
-import styles from "../styles/Header.module.css";
-
 const SearchOutlined = Icons.SearchOutlined;
 
 export interface HeaderProps {
@@ -48,14 +46,12 @@ const Header: FC<HeaderProps> = ({ title, back, loading, filter }) => {
           onBack={() => window.history.back()}
           title={title}
           extra={[open ? SearchInput : SearchIcon]}
-          className={styles.header}
         />
       ) : (
         <PageHeader
           ghost={false}
           title={title}
           extra={[open ? SearchInput : SearchIcon]}
-          className={styles.header}
         />
       )}
     </>

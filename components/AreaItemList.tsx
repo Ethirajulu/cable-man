@@ -12,11 +12,6 @@ export const AreaItemList: FC<AreaItemListProps> = ({ areas }) => {
   const screen = useBreakpoint();
   return (
     <List
-      grid={{
-        gutter: 16,
-        xs: 1,
-        md: 2,
-      }}
       dataSource={areas}
       renderItem={(item) => <AreaItem area={item} isMobile={screen.xs} />}
     />
