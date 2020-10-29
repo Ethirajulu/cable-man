@@ -1,0 +1,30 @@
+.item {
+  position: relative;
+  min-height: 58px;
+}
+
+.meta {
+  background-color: whitesmoke;
+  position: absolute;
+  width: 100vw;
+  z-index: 2;
+  border-radius: 2px;
+  padding-left: 10px;
+}
+
+.option {
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
+  padding-top: 10px;
+  padding-right: 10px;
+}
+
+.edit_button {
+  /* margin-right: 10px; */
+  padding: 4px 25px;
+}
+
+/* .delete_button {
+  margin-left: 10px;
+} */
