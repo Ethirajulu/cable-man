@@ -3,7 +3,7 @@ import { Story, Meta } from "@storybook/react";
 import AreaItemList from "../components/AreaItemList";
 
 export default {
-  title: "AreaItemList",
+  title: "Area/AreaItemList",
   component: AreaItemList,
 } as Meta;
 
@@ -17,4 +17,5 @@ Default.args = {
     { id: "123", name: "Sukumar" },
     { id: "1234", name: "Mallika" },
   ],
+  isMobile: true,
 };

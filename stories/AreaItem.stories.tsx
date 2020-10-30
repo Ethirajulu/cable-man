@@ -3,7 +3,7 @@ import { Story, Meta } from "@storybook/react";
 import AreaItem from "../components/AreaItem";
 
 export default {
-  title: "AreaItem",
+  title: "Area/AreaItem",
   component: AreaItem,
 } as Meta;
 

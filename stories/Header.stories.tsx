@@ -6,7 +6,7 @@ import { action } from "@storybook/addon-actions";
 import Header from "../components/Header";
 
 export default {
-  title: "Header",
+  title: "Common/Header",
   component: Header,
 } as Meta;
 
@@ -16,8 +16,10 @@ const Template: Story<ComponentProps<typeof Header>> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  title: "Collector",
+  title: "Cable Man",
   back: false,
   loading: false,
+  isMobile: true,
+  setIsFormOpen: action("form open/closed"),
   filter: action("filter called"),
 };

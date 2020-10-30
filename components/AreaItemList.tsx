@@ -6,14 +6,14 @@ import AreaItem from "./AreaItem";
 
 export interface AreaItemListProps {
   areas: Area[];
+  isMobile: boolean;
 }
 
-export const AreaItemList: FC<AreaItemListProps> = ({ areas }) => {
-  const screen = useBreakpoint();
+export const AreaItemList: FC<AreaItemListProps> = ({ areas, isMobile }) => {
   return (
     <List
       dataSource={areas}
-      renderItem={(item) => <AreaItem area={item} isMobile={screen.xs} />}
+      renderItem={(item) => <AreaItem area={item} isMobile={isMobile} />}
     />
   );
 };
