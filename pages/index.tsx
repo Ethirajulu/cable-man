@@ -77,8 +77,6 @@ const Home: NextPage = () => {
           <Spin spinning={loading} indicator={antIcon}>
             <AreaItemList
               areas={areasFiltered}
-              isMobile={screen.xs}
-              loading={loading}
               setType={setType}
               setIsOpen={setIsFormOpen}
               setCurArea={setCurArea}

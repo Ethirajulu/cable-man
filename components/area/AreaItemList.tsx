@@ -1,25 +1,29 @@
-import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { List, Modal } from "antd";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
+import { Button, List, Modal, Space } from "antd";
+import Avatar from "antd/lib/avatar/avatar";
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../redux/actions";
 import { deleteAreaThunk } from "../../redux/thunk";
 import { Area } from "../../redux/types";
-import AreaItem from "./AreaItem";
+
+import styles from "../../styles/AreaItem.module.css";
 
 export interface AreaItemListProps {
   areas: Area[];
-  isMobile: boolean;
-  loading: boolean;
   setType: (type: string) => void;
   setIsOpen: (isOpen: boolean) => void;
   setCurArea: (area: Area) => void;
 }
 
+const Item = List.Item;
+
 export const AreaItemList: FC<AreaItemListProps> = ({
   areas,
-  isMobile,
-  loading,
   setType,
   setIsOpen,
   setCurArea,
@@ -50,13 +54,27 @@ export const AreaItemList: FC<AreaItemListProps> = ({
     <List
       dataSource={areas}
       renderItem={(item) => (
-        <AreaItem
-          area={item}
-          isMobile={isMobile}
-          loading={loading}
-          onEditClick={onEditClick}
-          onDeleteClick={onDeleteClick}
-        />
+        <Item
+          key={item.id}
+          actions={[
+            <Button
+              icon={<EditOutlined />}
+              onClick={() => onEditClick(item)}
+              className={styles.edit_button}
+            />,
+            <Button
+              icon={<DeleteOutlined />}
+              onClick={() => onDeleteClick(item)}
+              danger
+            />,
+          ]}
+          className={styles.meta}
+        >
+          <Item.Meta
+            avatar={<Avatar src="/images/area.svg" />}
+            title={item.name}
+          />
+        </Item>
       )}
     />
   );
