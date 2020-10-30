@@ -1,6 +1,6 @@
 import React, { ComponentProps } from "react";
 import { Story, Meta } from "@storybook/react";
-import AreaForm from "../components/AreaForm";
+import AreaForm from "../components/area/AreaForm";
 
 export default {
   title: "Area/AreaForm",

@@ -1,6 +1,6 @@
 import React, { ComponentProps } from "react";
 import { Story, Meta } from "@storybook/react";
-import AreaItemList from "../components/AreaItemList";
+import AreaItemList from "../components/area/AreaItemList";
 import { action } from "@storybook/addon-actions";
 
 export default {

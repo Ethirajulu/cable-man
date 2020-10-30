@@ -2,9 +2,9 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { List, Modal } from "antd";
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
-import { setLoading } from "../redux/actions";
-import { deleteAreaThunk } from "../redux/thunk";
-import { Area } from "../redux/types";
+import { setLoading } from "../../redux/actions";
+import { deleteAreaThunk } from "../../redux/thunk";
+import { Area } from "../../redux/types";
 import AreaItem from "./AreaItem";
 
 export interface AreaItemListProps {

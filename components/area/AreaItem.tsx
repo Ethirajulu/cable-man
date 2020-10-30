@@ -4,7 +4,7 @@ import Button from "antd/lib/button";
 import React, { FC, useEffect } from "react";
 import { animated, useSpring } from "react-spring";
 import { useGesture } from "react-use-gesture";
-import { Area } from "../redux/types";
+import { Area } from "../../redux/types";
 
 import styles from "../styles/AreaItem.module.css";
 

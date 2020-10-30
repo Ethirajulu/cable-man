@@ -1,10 +1,10 @@
 import { Button, Form, Input } from "antd";
 import React, { FC } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setLoading } from "../redux/actions";
-import { getLoadingSl } from "../redux/selectors";
-import { addAreaThunk, updateAreaThunk } from "../redux/thunk";
-import { Area } from "../redux/types";
+import { setLoading } from "../../redux/actions";
+import { getLoadingSl } from "../../redux/selectors";
+import { addAreaThunk, updateAreaThunk } from "../../redux/thunk";
+import { Area } from "../../redux/types";
 
 export interface AreaFormProps {
   area: Area | null;
