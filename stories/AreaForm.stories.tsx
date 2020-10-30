@@ -15,5 +15,6 @@ const Template: Story<ComponentProps<typeof AreaForm>> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   name: "Ethi",
+  isMobile: true,
   setIsOpen: action("Form closed"),
 };

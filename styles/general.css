@@ -1,0 +1,16 @@
+.ant-drawer-header {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom: none;
+  background-color: black;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.ant-drawer-title,
+.ant-drawer-close {
+  color: white;
+}
+
+.ant-drawer-close:hover {
+  color: brown;
+}

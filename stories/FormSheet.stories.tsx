@@ -14,7 +14,9 @@ const Template: Story<ComponentProps<typeof FormSheet>> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
+  title: "Add Area",
   isOpen: true,
+  isMobile: true,
   setIsOpen: action("Close action called"),
   children: <p>Hello</p>,
 };

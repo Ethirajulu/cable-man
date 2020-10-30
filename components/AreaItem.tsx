@@ -13,9 +13,16 @@ const Item = List.Item;
 export interface AreaItemProps {
   area: Area;
   isMobile: boolean;
+  onEditClick: (id: string, name: string) => void;
+  onDeleteClick: (id: string) => void;
 }
 
-const AreaItem: FC<AreaItemProps> = ({ area, isMobile }) => {
+const AreaItem: FC<AreaItemProps> = ({
+  area,
+  isMobile,
+  onEditClick,
+  onDeleteClick,
+}) => {
   const [{ x }, set] = useSpring(() => ({ x: 0 }));
   const bind = useGesture({
     onDrag: ({ movement: [mx] }) => {
@@ -61,10 +68,19 @@ const AreaItem: FC<AreaItemProps> = ({ area, isMobile }) => {
           size={isMobile ? "small" : "middle"}
           split={<Divider type="vertical" />}
         >
-          <Button type="primary" className={styles.delete_button} danger>
+          <Button
+            type="primary"
+            className={styles.delete_button}
+            danger
+            onClick={() => onDeleteClick(area.id)}
+          >
             Delete
           </Button>
-          <Button type="primary" className={styles.edit_button}>
+          <Button
+            type="primary"
+            className={styles.edit_button}
+            onClick={() => onEditClick(area.id, area.name)}
+          >
             Edit
           </Button>
         </Space>

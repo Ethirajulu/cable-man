@@ -19,6 +19,7 @@ export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
 const Home: NextPage = () => {
   const areas: Area[] = useSelector(getAreasSl);
   const [areasFiltered, setAreasFiltered] = useState<Area[]>(areas);
+  const [type, setType] = useState<string>("Add");
   const [loading, setLoading] = useState<boolean>(false);
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
   const screen = useBreakpoint();
@@ -42,19 +43,34 @@ const Home: NextPage = () => {
         <title>Cable Man</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header
-        title="Cable Man"
-        back={false}
-        filter={onFilterChange}
-        loading={loading}
+      <div className="wrapper">
+        <div className="header">
+          <Header
+            title="Cable Man"
+            back={false}
+            filter={onFilterChange}
+            loading={loading}
+            isMobile={screen.xs}
+            setIsOpen={setIsFormOpen}
+            setType={setType}
+          />
+        </div>
+        <div className="content">
+          <AreaItemList
+            areas={areasFiltered}
+            isMobile={screen.xs}
+            setType={setType}
+            setIsOpen={setIsFormOpen}
+          />
+        </div>
+      </div>
+      <FormSheet
+        title={`${type} Area`}
+        isOpen={isFormOpen}
         isMobile={screen.xs}
         setIsOpen={setIsFormOpen}
-      />
-      <div className="main">
-        <AreaItemList areas={areasFiltered} isMobile={screen.xs} />
-      </div>
-      <FormSheet isOpen={isFormOpen} setIsOpen={setIsFormOpen}>
-        <AreaForm setIsOpen={setIsFormOpen} />
+      >
+        <AreaForm setIsOpen={setIsFormOpen} isMobile={screen.xs} />
       </FormSheet>
     </>
   );

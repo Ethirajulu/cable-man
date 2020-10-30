@@ -1,16 +1,29 @@
+import { Drawer } from "antd";
 import React, { FC } from "react";
-import DynamicSheet from "react-dynamic-sheet";
 
 export interface FormSheetProps {
+  title: string;
   isOpen: boolean;
+  isMobile: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
 
-const FormSheet: FC<FormSheetProps> = ({ isOpen, setIsOpen, children }) => {
+const FormSheet: FC<FormSheetProps> = ({
+  title,
+  isOpen,
+  isMobile,
+  setIsOpen,
+  children,
+}) => {
   return (
-    <DynamicSheet isOpen={isOpen} onClose={() => setIsOpen(false)}>
+    <Drawer
+      title={title}
+      visible={isOpen}
+      placement={isMobile ? "bottom" : "right"}
+      onClose={() => setIsOpen(false)}
+    >
       {children}
-    </DynamicSheet>
+    </Drawer>
   );
 };
 

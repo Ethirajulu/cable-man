@@ -11,8 +11,9 @@ export interface HeaderProps {
   back: boolean;
   loading: boolean;
   isMobile: boolean;
-  setIsOpen: (isOpen: boolean) => void;
   filter: (value: string) => void;
+  setIsOpen: (isOpen: boolean) => void;
+  setType: (type: string) => void;
 }
 
 const Header: FC<HeaderProps> = ({
@@ -20,8 +21,9 @@ const Header: FC<HeaderProps> = ({
   back,
   loading,
   isMobile,
-  setIsOpen,
   filter,
+  setIsOpen,
+  setType,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const onFocusOut = () => {
@@ -58,6 +60,11 @@ const Header: FC<HeaderProps> = ({
     </Spring>
   );
 
+  const onAddClick = () => {
+    setIsOpen(true);
+    setType("Add");
+  };
+
   const addButton = (
     <Button
       key="add"
@@ -65,7 +72,7 @@ const Header: FC<HeaderProps> = ({
       icon={<PlusOutlined />}
       size={isMobile ? "small" : "middle"}
       className={styles.extras_margin}
-      onClick={() => setIsOpen(true)}
+      onClick={onAddClick}
     />
   );
 
@@ -73,6 +80,7 @@ const Header: FC<HeaderProps> = ({
     <>
       {back ? (
         <PageHeader
+          className={styles.sticky}
           ghost={false}
           onBack={() => window.history.back()}
           title={title}
@@ -80,6 +88,7 @@ const Header: FC<HeaderProps> = ({
         />
       ) : (
         <PageHeader
+          className={styles.sticky}
           ghost={false}
           title={title}
           extra={[open ? SearchInput : SearchIcon, addButton]}

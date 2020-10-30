@@ -3,22 +3,34 @@ import React, { FC } from "react";
 
 export interface AreaFormProps {
   name?: string;
+  isMobile: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
+const AreaForm: FC<AreaFormProps> = ({ name, isMobile, setIsOpen }) => {
+  const [form] = Form.useForm();
 
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
-
-const AreaForm: FC<AreaFormProps> = ({ name, setIsOpen }) => {
   const onSubmit = () => {};
 
+  const formItemLayout = isMobile
+    ? {
+        labelCol: { span: 4 },
+        wrapperCol: { span: 14 },
+      }
+    : null;
+
+  const buttonItemLayout = isMobile
+    ? {
+        wrapperCol: { span: 4, offset: 18 },
+      }
+    : null;
+
   return (
-    <Form {...layout} name="area_form" onFinish={onSubmit}>
+    <Form
+      {...formItemLayout}
+      layout={isMobile ? "horizontal" : "vertical"}
+      name="area_form"
+      onFinish={onSubmit}
+    >
       <Form.Item
         label="Area Name"
         name="name"
@@ -27,12 +39,9 @@ const AreaForm: FC<AreaFormProps> = ({ name, setIsOpen }) => {
       >
         <Input />
       </Form.Item>
-      <Form.Item {...tailLayout}>
+      <Form.Item {...buttonItemLayout}>
         <Button type="primary" htmlType="submit">
           Submit
-        </Button>
-        <Button htmlType="button" onClick={() => setIsOpen(false)}>
-          Cancel
         </Button>
       </Form.Item>
     </Form>

@@ -1,16 +1,24 @@
 html,
 body {
-  height: 100%;
-  width: 100%;
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.static {
+  position: fixed;
+  height: 77px;
+}
+
+.content {
+  position: relative;
+  top: 77px;
 }
 
 a {
@@ -20,8 +28,4 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-.main {
-  flex: auto;
 }

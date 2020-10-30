@@ -1,6 +1,7 @@
 import React, { ComponentProps } from "react";
 import { Story, Meta } from "@storybook/react";
 import AreaItemList from "../components/AreaItemList";
+import { action } from "@storybook/addon-actions";
 
 export default {
   title: "Area/AreaItemList",
@@ -18,4 +19,6 @@ Default.args = {
     { id: "1234", name: "Mallika" },
   ],
   isMobile: true,
+  setType: action("Set type"),
+  setIsOpen: action("Sheet open / close"),
 };

@@ -21,5 +21,6 @@ Default.args = {
   loading: false,
   isMobile: true,
   setIsFormOpen: action("form open/closed"),
+  setType: action("Set type"),
   filter: action("filter called"),
 };

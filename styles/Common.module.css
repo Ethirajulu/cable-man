@@ -1,0 +1,8 @@
+.drawer {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.drawer > .ant-drawer-title {
+  color: white !important;
+}

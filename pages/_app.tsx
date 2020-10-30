@@ -4,6 +4,7 @@ import { wrapper } from "../redux/store";
 
 import "antd/dist/antd.css";
 import "../styles/globals.css";
+import "../styles/general.css";
 
 const WrappedApp: FC<AppProps> = ({ Component, pageProps }) => {
   return <Component {...pageProps} />;

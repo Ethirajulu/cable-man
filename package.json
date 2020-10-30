@@ -17,7 +17,6 @@
     "next-redux-wrapper": "^6.0.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
-    "react-dynamic-sheet": "^0.2.0",
     "react-redux": "^7.2.2",
     "react-shadow": "18.4.2",
     "react-spring": "^8.0.27",
