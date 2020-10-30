@@ -1,7 +1,7 @@
 import { Divider, List, Row, Space } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
 import Button from "antd/lib/button";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { animated, useSpring } from "react-spring";
 import { useGesture } from "react-use-gesture";
 import { Area } from "../redux/types";
@@ -13,13 +13,15 @@ const Item = List.Item;
 export interface AreaItemProps {
   area: Area;
   isMobile: boolean;
-  onEditClick: (id: string, name: string) => void;
-  onDeleteClick: (id: string) => void;
+  loading: boolean;
+  onEditClick: (area: Area) => void;
+  onDeleteClick: (area: Area) => void;
 }
 
 const AreaItem: FC<AreaItemProps> = ({
   area,
   isMobile,
+  loading,
   onEditClick,
   onDeleteClick,
 }) => {
@@ -44,6 +46,10 @@ const AreaItem: FC<AreaItemProps> = ({
       }
     },
   });
+
+  useEffect(() => {
+    set({ x: 0 });
+  }, [loading]);
 
   return (
     <div className={styles.item}>
@@ -72,14 +78,14 @@ const AreaItem: FC<AreaItemProps> = ({
             type="primary"
             className={styles.delete_button}
             danger
-            onClick={() => onDeleteClick(area.id)}
+            onClick={() => onDeleteClick(area)}
           >
             Delete
           </Button>
           <Button
             type="primary"
             className={styles.edit_button}
-            onClick={() => onEditClick(area.id, area.name)}
+            onClick={() => onEditClick(area)}
           >
             Edit
           </Button>

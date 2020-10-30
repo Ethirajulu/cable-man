@@ -1,41 +1,59 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { wrapper } from "../redux/store";
-import { fetchAreas } from "../redux/thunk";
-import { getAreasSl } from "../redux/selectors";
+import { getAreasThunk } from "../redux/thunk";
+import { getAreasSl, getLoadingSl } from "../redux/selectors";
 import AreaItemList from "../components/AreaItemList";
 import Header from "../components/Header";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Area } from "../redux/types";
 import FormSheet from "../components/FormSheet";
 import AreaForm from "../components/AreaForm";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { setLoading } from "../redux/actions";
 
 export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
-  await store.dispatch(fetchAreas());
+  await store.dispatch(getAreasThunk());
 });
 
 const Home: NextPage = () => {
   const areas: Area[] = useSelector(getAreasSl);
+  const loading: boolean = useSelector(getLoadingSl);
+  const dispatch = useDispatch();
   const [areasFiltered, setAreasFiltered] = useState<Area[]>(areas);
+  const [curArea, setCurArea] = useState<Area | null>(null);
   const [type, setType] = useState<string>("Add");
-  const [loading, setLoading] = useState<boolean>(false);
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
   const screen = useBreakpoint();
 
   const onFilterChange = (value: string) => {
     if (value !== "") {
-      setLoading(true);
+      dispatch(setLoading(true));
       const filteredAreas = areas.filter(
         (area) => area.name.toLowerCase().indexOf(value.toLowerCase()) !== -1
       );
       setAreasFiltered(filteredAreas);
-      setLoading(false);
+      dispatch(setLoading(false));
     } else {
       setAreasFiltered(areas);
     }
   };
+
+  useEffect(() => {
+    reset();
+  }, [areas]);
+
+  const reset = () => {
+    setIsFormOpen(false);
+    dispatch(setLoading(false));
+    setAreasFiltered(areas);
+    setCurArea(null);
+  };
+
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   return (
     <>
@@ -56,22 +74,26 @@ const Home: NextPage = () => {
           />
         </div>
         <div className="content">
-          <AreaItemList
-            areas={areasFiltered}
-            isMobile={screen.xs}
-            setType={setType}
-            setIsOpen={setIsFormOpen}
-          />
+          <Spin spinning={loading} indicator={antIcon}>
+            <AreaItemList
+              areas={areasFiltered}
+              isMobile={screen.xs}
+              loading={loading}
+              setType={setType}
+              setIsOpen={setIsFormOpen}
+              setCurArea={setCurArea}
+            />
+          </Spin>
         </div>
+        <FormSheet
+          title={`${type} Area`}
+          isOpen={isFormOpen}
+          isMobile={screen.xs}
+          setIsOpen={setIsFormOpen}
+        >
+          <AreaForm area={curArea} isMobile={screen.xs} />
+        </FormSheet>
       </div>
-      <FormSheet
-        title={`${type} Area`}
-        isOpen={isFormOpen}
-        isMobile={screen.xs}
-        setIsOpen={setIsFormOpen}
-      >
-        <AreaForm setIsOpen={setIsFormOpen} isMobile={screen.xs} />
-      </FormSheet>
     </>
   );
 };

@@ -1,7 +1,6 @@
 import React, { ComponentProps } from "react";
 import { Story, Meta } from "@storybook/react";
 import AreaForm from "../components/AreaForm";
-import { action } from "@storybook/addon-actions";
 
 export default {
   title: "Area/AreaForm",
@@ -16,5 +15,4 @@ export const Default = Template.bind({});
 Default.args = {
   name: "Ethi",
   isMobile: true,
-  setIsOpen: action("Form closed"),
 };

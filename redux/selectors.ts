@@ -1,3 +1,5 @@
 import { RootState } from "./store";
 
-export const getAreasSl = (state: RootState) => state.collector.areas;
+export const getAreasSl = (state: RootState) => state.areaReducer.areas;
+
+export const getLoadingSl = (state: RootState) => state.commonReducer.loading;

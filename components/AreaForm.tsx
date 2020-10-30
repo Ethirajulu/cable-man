@@ -1,15 +1,30 @@
 import { Button, Form, Input } from "antd";
 import React, { FC } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setLoading } from "../redux/actions";
+import { getLoadingSl } from "../redux/selectors";
+import { addAreaThunk, updateAreaThunk } from "../redux/thunk";
+import { Area } from "../redux/types";
 
 export interface AreaFormProps {
-  name?: string;
+  area: Area | null;
   isMobile: boolean;
-  setIsOpen: (isOpen: boolean) => void;
 }
-const AreaForm: FC<AreaFormProps> = ({ name, isMobile, setIsOpen }) => {
-  const [form] = Form.useForm();
 
-  const onSubmit = () => {};
+const AreaForm: FC<AreaFormProps> = ({ area, isMobile }) => {
+  const [form] = Form.useForm();
+  const loading = useSelector(getLoadingSl);
+  const dispatch = useDispatch();
+
+  const onSubmit = (values) => {
+    const areaName = values.name;
+    dispatch(setLoading(true));
+    if (area) {
+      dispatch(updateAreaThunk(area.id, areaName));
+    } else {
+      dispatch(addAreaThunk(areaName));
+    }
+  };
 
   const formItemLayout = isMobile
     ? {
@@ -27,6 +42,7 @@ const AreaForm: FC<AreaFormProps> = ({ name, isMobile, setIsOpen }) => {
   return (
     <Form
       {...formItemLayout}
+      form={form}
       layout={isMobile ? "horizontal" : "vertical"}
       name="area_form"
       onFinish={onSubmit}
@@ -34,13 +50,13 @@ const AreaForm: FC<AreaFormProps> = ({ name, isMobile, setIsOpen }) => {
       <Form.Item
         label="Area Name"
         name="name"
-        initialValue={name ? name : ""}
-        rules={[{ required: true, message: "Please input a area name!" }]}
+        initialValue={area ? area.name : ""}
+        rules={[{ required: true, message: "Area name required" }]}
       >
         <Input />
       </Form.Item>
       <Form.Item {...buttonItemLayout}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={loading}>
           Submit
         </Button>
       </Form.Item>

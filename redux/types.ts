@@ -1,7 +1,12 @@
 export const SET_AREAS = "SET/AREAS";
 export const ADD_AREA = "ADD/AREA";
+export const UPDATE_AREA = "UPDATE/AREA";
+export const DELETE_AREA = "DELETE/AREA";
 export const SET_HOUSES = "SET/HOUSES";
 export const ADD_HOUSE = "ADD/HOUSE";
+export const UPDATE_HOUSE = "UPDATE/HOUSE";
+export const DELETE_HOUSE = "DELETE/HOUSE";
+export const SET_LOADING = "SET/LOADING";
 
 export interface House {
   id: string;
@@ -35,6 +40,16 @@ interface AddAreaAction {
   area: Area;
 }
 
+interface UpdateAreaAction {
+  type: typeof UPDATE_AREA;
+  area: Area;
+}
+
+interface DeleteAreaAction {
+  type: typeof DELETE_AREA;
+  id: string;
+}
+
 interface SetHousesAction {
   type: typeof SET_HOUSES;
   houses: House[];
@@ -45,8 +60,31 @@ interface AddHouseAction {
   house: House;
 }
 
-export type CollectorActionTypes =
+interface UpdateHouseAction {
+  type: typeof UPDATE_HOUSE;
+  house: House;
+}
+
+interface DeleteHouseAction {
+  type: typeof DELETE_HOUSE;
+  id: string;
+}
+
+interface SetLoadingStatusAction {
+  type: typeof SET_LOADING;
+  loading: boolean;
+}
+
+export type AreaActionTypes =
   | SetAreasAction
   | AddAreaAction
+  | UpdateAreaAction
+  | DeleteAreaAction;
+
+export type HouseActionTypes =
   | SetHousesAction
-  | AddHouseAction;
+  | AddHouseAction
+  | UpdateHouseAction
+  | DeleteHouseAction;
+
+export type CommonActionTypes = SetLoadingStatusAction;

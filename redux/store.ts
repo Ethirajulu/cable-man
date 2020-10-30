@@ -1,14 +1,9 @@
-import { createWrapper, HYDRATE, MakeStore } from "next-redux-wrapper";
-import {
-  Action,
-  AnyAction,
-  applyMiddleware,
-  combineReducers,
-  createStore,
-} from "redux";
+import { createWrapper, HYDRATE } from "next-redux-wrapper";
+import { Action, applyMiddleware, combineReducers, createStore } from "redux";
 import thunkMiddleware, { ThunkAction } from "redux-thunk";
-import { collector } from "./reducer";
-import { CollectorActionTypes } from "./types";
+import { areaReducer } from "./reducers/area";
+import { commonReducer } from "./reducers/common";
+import { houseReducer } from "./reducers/house";
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== "production") {
@@ -19,7 +14,9 @@ const bindMiddleware = (middleware) => {
 };
 
 const combinedReducer = combineReducers({
-  collector: collector,
+  areaReducer: areaReducer,
+  houseReducer: houseReducer,
+  commonReducer: commonReducer,
 });
 
 export type RootState = ReturnType<typeof combinedReducer>;
