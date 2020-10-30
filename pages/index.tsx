@@ -59,7 +59,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>Cable Man</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/icons/favicon.ico" />
       </Head>
       <div className="wrapper">
         <div className="header">

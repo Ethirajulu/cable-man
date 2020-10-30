@@ -1,0 +1,21 @@
+{
+  "name": "Cable Man",
+  "short_name": "CB",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/icons/cable128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/cable512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
