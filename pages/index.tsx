@@ -15,7 +15,7 @@ import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { setLoading } from "../redux/actions";
 
-export const getStaticProps = wrapper.getStaticProps(async ({ store }) => {
+export const getStaticProps = wrapper.getServerSideProps(async ({ store }) => {
   await store.dispatch(getAreasThunk());
 });
 
