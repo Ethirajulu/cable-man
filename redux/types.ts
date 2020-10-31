@@ -6,12 +6,14 @@ export const SET_HOUSES = "SET/HOUSES";
 export const ADD_HOUSE = "ADD/HOUSE";
 export const UPDATE_HOUSE = "UPDATE/HOUSE";
 export const DELETE_HOUSE = "DELETE/HOUSE";
+export const SET_LOGS = "SET/LOGS";
 export const SET_LOADING = "SET/LOADING";
 
 export interface House {
   id?: string;
   area_id: string;
   name: string;
+  phone_no?: number;
   default_amt: number;
   box_no: string;
   last_paid?: string;
@@ -77,6 +79,11 @@ interface SetLoadingStatusAction {
   loading: boolean;
 }
 
+interface SetLogsAction {
+  type: typeof SET_LOGS;
+  logs: Log[];
+}
+
 export type AreaActionTypes =
   | SetAreasAction
   | AddAreaAction
@@ -87,6 +94,7 @@ export type HouseActionTypes =
   | SetHousesAction
   | AddHouseAction
   | UpdateHouseAction
-  | DeleteHouseAction;
+  | DeleteHouseAction
+  | SetLogsAction;
 
 export type CommonActionTypes = SetLoadingStatusAction;

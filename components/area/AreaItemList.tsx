@@ -3,8 +3,7 @@ import {
   EditOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { Button, List } from "antd";
-import Avatar from "antd/lib/avatar/avatar";
+import { Avatar, Button, List } from "antd";
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import Link from "next/link";

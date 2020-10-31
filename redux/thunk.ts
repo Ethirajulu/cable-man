@@ -8,6 +8,7 @@ import {
   setAreas,
   setHouses,
   setLoading,
+  setLogs,
   updateArea,
   updateHouse,
 } from "./actions";
@@ -163,6 +164,26 @@ export const updatePaymentThunk = (log: Log, house: House): AppThunk => async (
     dispatch(updateHouse(newHouse));
   } catch (err) {
     message.error("Payment failed");
+    dispatch(setLoading(false));
+  }
+};
+
+export const getLogsThunk = (houseId: string): AppThunk => async (dispatch) => {
+  try {
+    const docs = (
+      await db.collection("logs").where("house_id", "==", houseId).get()
+    ).docs;
+    let logs: Log[] = [];
+    let log: Log;
+    let data = null;
+    docs.forEach((doc) => {
+      data = doc.data();
+      log = { id: doc.id, ...data };
+      logs.push(log);
+    });
+    dispatch(setLogs(logs));
+  } catch (err) {
+    message.error("Listing old logs failed");
     dispatch(setLoading(false));
   }
 };

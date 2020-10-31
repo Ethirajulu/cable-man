@@ -1,5 +1,5 @@
 import { Button, Form, Input, InputNumber } from "antd";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DateTime } from "luxon";
 import { getLoadingSl } from "../../redux/selectors";
@@ -18,14 +18,17 @@ const PayForm: FC<PayFormProps> = ({ house, areaName, isMobile }) => {
   const loading = useSelector(getLoadingSl);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    form.setFieldsValue(house);
+  }, [house]);
+
   const onSubmit = (values) => {
-    const amount = values.amount;
     const log: Log = {
       area_name: areaName,
       house_id: house.id,
       house_name: house.name,
       box_no: house.box_no,
-      paid_amt: amount,
+      paid_amt: values.default_amt,
       created_on: DateTime.local().toFormat("MMMM-yyyy"),
     };
     dispatch(setLoading(true));
@@ -44,6 +47,7 @@ const PayForm: FC<PayFormProps> = ({ house, areaName, isMobile }) => {
         wrapperCol: { span: 4, offset: 18 },
       }
     : null;
+
   return (
     <Form
       form={form}
@@ -55,26 +59,23 @@ const PayForm: FC<PayFormProps> = ({ house, areaName, isMobile }) => {
       <Form.Item
         label="House Name"
         name="name"
-        initialValue={house.name}
         rules={[{ required: true, message: "House name required" }]}
       >
         <Input disabled />
       </Form.Item>
       <Form.Item
         label="Box No"
-        name="boxNo"
-        initialValue={house.box_no}
+        name="box_no"
         rules={[{ required: true, message: "Box number required" }]}
       >
         <Input disabled />
       </Form.Item>
       <Form.Item
         label="Amount"
-        name="amount"
-        initialValue={house.default_amt}
+        name="default_amt"
         rules={[{ required: true, message: "Amount required" }]}
       >
-        <InputNumber />
+        <InputNumber min={0} />
       </Form.Item>
       <Form.Item {...buttonItemLayout}>
         <Button type="primary" htmlType="submit" loading={loading}>

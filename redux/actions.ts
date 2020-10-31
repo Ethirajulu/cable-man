@@ -8,9 +8,11 @@ import {
   DELETE_HOUSE,
   House,
   HouseActionTypes,
+  Log,
   SET_AREAS,
   SET_HOUSES,
   SET_LOADING,
+  SET_LOGS,
   UPDATE_AREA,
   UPDATE_HOUSE,
 } from "./types";
@@ -53,6 +55,11 @@ export const updateHouse = (house: House): HouseActionTypes => ({
 export const deleteHouse = (id: string): HouseActionTypes => ({
   type: DELETE_HOUSE,
   id,
+});
+
+export const setLogs = (logs: Log[]): HouseActionTypes => ({
+  type: SET_LOGS,
+  logs,
 });
 
 export const setLoading = (loading: boolean): CommonActionTypes => ({

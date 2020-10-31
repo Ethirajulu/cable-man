@@ -14,6 +14,7 @@ import AreaForm from "../components/area/AreaForm";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { setLoading } from "../redux/actions";
+import { useForm } from "antd/lib/form/Form";
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store }) => {
@@ -26,7 +27,7 @@ const Home: NextPage = () => {
   const loading: boolean = useSelector(getLoadingSl);
   const dispatch = useDispatch();
   const [areasFiltered, setAreasFiltered] = useState<Area[]>(areas);
-  const [curArea, setCurArea] = useState<Area | null>(null);
+  const [curArea, setCurArea] = useState<Area>({ name: null });
   const [type, setType] = useState<string>("Add");
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
   const screen = useBreakpoint();
@@ -50,13 +51,8 @@ const Home: NextPage = () => {
     setAreasFiltered(areas);
   }, [areas]);
 
-  useEffect(() => {
-    if (!isFormOpen) {
-      setCurArea(null);
-    }
-  }, [isFormOpen]);
-
   const reset = () => {
+    setCurArea({ name: null });
     setIsFormOpen(false);
   };
 
@@ -73,6 +69,7 @@ const Home: NextPage = () => {
           <Header
             title="Cable Man"
             back={false}
+            showAdd
             filter={onFilterChange}
             loading={loading}
             isMobile={screen.xs}
@@ -96,7 +93,7 @@ const Home: NextPage = () => {
           isMobile={screen.xs}
           onClose={reset}
         >
-          <AreaForm area={curArea} isMobile={screen.xs} />
+          <AreaForm area={curArea} isMobile={screen.xs} type={type} />
         </FormSheet>
       </div>
     </>

@@ -1,5 +1,6 @@
 import { Button, Form, Input } from "antd";
-import React, { FC, useEffect } from "react";
+import { FormInstance } from "antd/lib/form";
+import React, { FC, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "../../redux/actions";
 import { getLoadingSl } from "../../redux/selectors";
@@ -8,22 +9,23 @@ import { Area } from "../../redux/types";
 
 export interface AreaFormProps {
   area: Area | null;
+  type: string;
   isMobile: boolean;
 }
 
-const AreaForm: FC<AreaFormProps> = ({ area, isMobile }) => {
+const AreaForm: FC<AreaFormProps> = ({ area, type, isMobile }) => {
   const [form] = Form.useForm();
   const loading = useSelector(getLoadingSl);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    form.resetFields();
+    form.setFieldsValue(area);
   }, [area]);
 
   const onSubmit = (values) => {
     const areaName = values.name;
     dispatch(setLoading(true));
-    if (area) {
+    if (type === "Edit") {
       dispatch(updateAreaThunk(area.id, areaName));
     } else {
       dispatch(addAreaThunk(areaName));
@@ -54,7 +56,6 @@ const AreaForm: FC<AreaFormProps> = ({ area, isMobile }) => {
       <Form.Item
         label="Area Name"
         name="name"
-        initialValue={area ? area.name : ""}
         rules={[{ required: true, message: "Area name required" }]}
       >
         <Input />

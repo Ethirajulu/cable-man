@@ -30,6 +30,20 @@
   overflow-wrap: break-word;
 }
 
+.descriptions {
+  padding: 0px 25px;
+}
+
+.list {
+  padding: 25px;
+  max-height: 50vh;
+  overflow: auto;
+}
+
+.paid_amt {
+  color: green;
+}
+
 /* .option {
   position: absolute;
   width: 100vw;

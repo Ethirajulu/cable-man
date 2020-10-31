@@ -9,6 +9,7 @@ import styles from "../styles/Header.module.css";
 export interface HeaderProps {
   title: string;
   back: boolean;
+  showAdd: boolean;
   loading: boolean;
   isMobile: boolean;
   filter: (value: string) => void;
@@ -19,6 +20,7 @@ export interface HeaderProps {
 const Header: FC<HeaderProps> = ({
   title,
   back,
+  showAdd,
   loading,
   isMobile,
   filter,
@@ -65,6 +67,16 @@ const Header: FC<HeaderProps> = ({
     setType("Add");
   };
 
+  const shouldShowAdd = () => {
+    let show = false;
+    if (showAdd) {
+      if (!open) {
+        show = true;
+      }
+    }
+    return show;
+  };
+
   const addButton = (
     <Button
       key="add"
@@ -72,7 +84,7 @@ const Header: FC<HeaderProps> = ({
       icon={<PlusOutlined />}
       size={isMobile ? "small" : "middle"}
       className={styles.extras_margin}
-      style={{ display: open && "none" }}
+      style={{ display: !shouldShowAdd() && "none" }}
       onClick={onAddClick}
     />
   );

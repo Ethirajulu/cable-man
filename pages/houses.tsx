@@ -35,6 +35,15 @@ export interface HousesProps {
   areaId: string;
 }
 
+const EMPTY_HOUSE: House = {
+  area_id: null,
+  box_no: null,
+  default_amt: null,
+  name: null,
+  last_paid: null,
+  phone_no: null,
+};
+
 const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
   const houses: House[] = useSelector(getHousesSl);
   const loading: boolean = useSelector(getLoadingSl);
@@ -42,7 +51,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
   const [housesFiltered, setHousesFiltered] = useState<House[]>(houses);
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
   const [isPayFormOpen, setPayFormStatus] = useState<boolean>(false);
-  const [curHouse, setCurHouse] = useState<House | null>(null);
+  const [curHouse, setCurHouse] = useState<House>(EMPTY_HOUSE);
   const [type, setType] = useState<string>("Add");
   const screen = useBreakpoint();
 
@@ -65,13 +74,8 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
     dispatch(setLoading(false));
   }, [houses]);
 
-  useEffect(() => {
-    if (!isFormOpen) {
-      setCurHouse(null);
-    }
-  }, [isFormOpen]);
-
   const reset = () => {
+    setCurHouse(EMPTY_HOUSE);
     setIsFormOpen(false);
     setPayFormStatus(false);
   };
@@ -89,6 +93,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
           <Header
             title={areaName}
             back
+            showAdd
             filter={onFilterChange}
             loading={loading}
             isMobile={screen.xs}
@@ -99,6 +104,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
         <div className="content">
           <Spin spinning={loading} indicator={antIcon}>
             <HouseItemList
+              areaName={areaName}
               houses={housesFiltered}
               setType={setType}
               setIsOpen={setIsFormOpen}
@@ -121,13 +127,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
           isOpen={isPayFormOpen}
           onClose={reset}
         >
-          {curHouse && (
-            <PayForm
-              areaName={areaName}
-              house={curHouse}
-              isMobile={screen.xs}
-            />
-          )}
+          <PayForm areaName={areaName} house={curHouse} isMobile={screen.xs} />
         </FormSheet>
       </div>
     </>

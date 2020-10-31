@@ -7,11 +7,11 @@ import {
   FieldNumberOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
-import { Button, Col, Divider, List, Row, Space } from "antd";
-import Avatar from "antd/lib/avatar/avatar";
+import { Avatar, Button, Col, Divider, List, Row, Space } from "antd";
 import Item from "antd/lib/list/Item";
 import confirm from "antd/lib/modal/confirm";
 import { DateTime } from "luxon";
+import Link from "next/link";
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../redux/actions";
@@ -22,6 +22,7 @@ import styles from "../../styles/ListItem.module.css";
 
 export interface HouseItemListProps {
   houses: House[];
+  areaName: string;
   setType: (type: string) => void;
   setIsOpen: (isOpen: boolean) => void;
   setPayFormStatus: (isOpen: boolean) => void;
@@ -30,6 +31,7 @@ export interface HouseItemListProps {
 
 const HouseItemList: FC<HouseItemListProps> = ({
   houses,
+  areaName,
   setType,
   setIsOpen,
   setPayFormStatus,
@@ -134,7 +136,20 @@ const HouseItemList: FC<HouseItemListProps> = ({
                           onClick={() => onDeleteClick(house)}
                           className={styles.delete_button}
                         />
-                        <Button icon={<InfoCircleOutlined />} />
+                        <Link
+                          href={{
+                            pathname: `/logs`,
+                            query: {
+                              ...house,
+                              areaName,
+                            },
+                          }}
+                          passHref
+                        >
+                          <a>
+                            <Button icon={<InfoCircleOutlined />} />
+                          </a>
+                        </Link>
                       </Space>
                     </Col>
                   </Row>

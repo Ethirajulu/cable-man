@@ -9,28 +9,30 @@ import { House } from "../../redux/types";
 export interface HouseFormProps {
   house: House | null;
   areaId: string;
+  type: string;
   isMobile: boolean;
 }
 
-const HouseForm: FC<HouseFormProps> = ({ house, areaId, isMobile }) => {
+const HouseForm: FC<HouseFormProps> = ({ house, areaId, type, isMobile }) => {
   const [form] = Form.useForm();
   const loading = useSelector(getLoadingSl);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    form.resetFields();
+    form.setFieldsValue(house);
   }, [house]);
 
   const onSubmit = (values) => {
     const newHouse = {
       area_id: areaId,
       name: values.name,
-      default_amt: values.amount,
-      box_no: values.boxNo,
+      phone_no: values.phone_no,
+      default_amt: values.default_amt,
+      box_no: values.box_no,
     };
 
     dispatch(setLoading(true));
-    if (house) {
+    if (type === "Edit") {
       dispatch(updateHouseThunk({ id: house.id, ...newHouse }));
     } else {
       dispatch(addHouseThunk(newHouse));
@@ -61,23 +63,23 @@ const HouseForm: FC<HouseFormProps> = ({ house, areaId, isMobile }) => {
       <Form.Item
         label="House Name"
         name="name"
-        initialValue={house ? house.name : ""}
         rules={[{ required: true, message: "House name required" }]}
       >
         <Input />
       </Form.Item>
+      <Form.Item label="Phone Number" name="phone_no">
+        <InputNumber min={0} />
+      </Form.Item>
       <Form.Item
         label="Amount"
-        name="amount"
-        initialValue={house ? house.default_amt : ""}
+        name="default_amt"
         rules={[{ required: true, message: "Amount required" }]}
       >
-        <InputNumber />
+        <InputNumber min={0} />
       </Form.Item>
       <Form.Item
         label="Box No"
-        name="boxNo"
-        initialValue={house ? house.box_no : ""}
+        name="box_no"
         rules={[{ required: true, message: "Box number required" }]}
       >
         <Input />
