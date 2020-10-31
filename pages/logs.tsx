@@ -60,7 +60,6 @@ const Logs: NextPage<LogsProps> = ({ areaName, house }) => {
             back
             showAdd={false}
             filter={onFilterChange}
-            setAddData={() => {}}
             loading={false}
             isMobile={screen.xs}
           />

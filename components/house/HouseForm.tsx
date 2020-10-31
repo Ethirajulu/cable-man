@@ -68,7 +68,7 @@ const HouseForm: FC<HouseFormProps> = ({ house, areaId, type, isMobile }) => {
         <Input />
       </Form.Item>
       <Form.Item label="Phone Number" name="phone_no">
-        <InputNumber min={0} />
+        <InputNumber min={0} style={{ width: "50vw" }} />
       </Form.Item>
       <Form.Item
         label="Amount"

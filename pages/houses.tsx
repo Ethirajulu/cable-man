@@ -119,7 +119,12 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
           isMobile={screen.xs}
           onClose={reset}
         >
-          <HouseForm areaId={areaId} house={curHouse} isMobile={screen.xs} />
+          <HouseForm
+            areaId={areaId}
+            house={curHouse}
+            isMobile={screen.xs}
+            type={type}
+          />
         </FormSheet>
         <FormSheet
           title="Pay"

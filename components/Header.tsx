@@ -13,8 +13,8 @@ export interface HeaderProps {
   loading: boolean;
   isMobile: boolean;
   filter: (value: string) => void;
-  setIsOpen: (isOpen: boolean) => void;
-  setType: (type: string) => void;
+  setIsOpen?: (isOpen: boolean) => void;
+  setType?: (type: string) => void;
 }
 
 const Header: FC<HeaderProps> = ({
