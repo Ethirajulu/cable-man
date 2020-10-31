@@ -8,13 +8,13 @@ import Avatar from "antd/lib/avatar/avatar";
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
+import Item from "antd/lib/list/Item";
+import confirm from "antd/lib/modal/confirm";
 import { setLoading } from "../../redux/actions";
 import { deleteAreaThunk } from "../../redux/thunk";
 import { Area } from "../../redux/types";
 
 import styles from "../../styles/ListItem.module.css";
-import Item from "antd/lib/list/Item";
-import confirm from "antd/lib/modal/confirm";
 
 export interface AreaItemListProps {
   areas: Area[];
@@ -83,7 +83,7 @@ export const AreaItemList: FC<AreaItemListProps> = ({
             }}
             passHref
           >
-            <a style={{ width: "inherit" }}>
+            <a className={styles.anchor}>
               <Item.Meta
                 avatar={<Avatar src="/images/area.svg" />}
                 title={area.name}
