@@ -74,6 +74,12 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
     dispatch(setLoading(false));
   }, [houses]);
 
+  const onAddClick = () => {
+    setCurHouse(EMPTY_HOUSE);
+    setIsFormOpen(true);
+    setType("Add");
+  };
+
   const reset = () => {
     setCurHouse(EMPTY_HOUSE);
     setIsFormOpen(false);
@@ -97,8 +103,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
             filter={onFilterChange}
             loading={loading}
             isMobile={screen.xs}
-            setIsOpen={setIsFormOpen}
-            setType={setType}
+            onAddClick={onAddClick}
           />
         </div>
         <div className="content">

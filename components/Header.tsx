@@ -13,8 +13,7 @@ export interface HeaderProps {
   loading: boolean;
   isMobile: boolean;
   filter: (value: string) => void;
-  setIsOpen?: (isOpen: boolean) => void;
-  setType?: (type: string) => void;
+  onAddClick?: () => void;
 }
 
 const Header: FC<HeaderProps> = ({
@@ -24,8 +23,7 @@ const Header: FC<HeaderProps> = ({
   loading,
   isMobile,
   filter,
-  setIsOpen,
-  setType,
+  onAddClick,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const onFocusOut = () => {
@@ -61,11 +59,6 @@ const Header: FC<HeaderProps> = ({
       )}
     </Spring>
   );
-
-  const onAddClick = () => {
-    setIsOpen(true);
-    setType("Add");
-  };
 
   const shouldShowAdd = () => {
     let show = false;

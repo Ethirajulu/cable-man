@@ -22,12 +22,16 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
   }
 );
 
+const EMPTY_AREA: Area = {
+  name: null,
+};
+
 const Home: NextPage = () => {
   const areas: Area[] = useSelector(getAreasSl);
   const loading: boolean = useSelector(getLoadingSl);
   const dispatch = useDispatch();
   const [areasFiltered, setAreasFiltered] = useState<Area[]>(areas);
-  const [curArea, setCurArea] = useState<Area>({ name: null });
+  const [curArea, setCurArea] = useState<Area>(EMPTY_AREA);
   const [type, setType] = useState<string>("Add");
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
   const screen = useBreakpoint();
@@ -51,6 +55,12 @@ const Home: NextPage = () => {
     setAreasFiltered(areas);
   }, [areas]);
 
+  const onAddClick = () => {
+    setCurArea(EMPTY_AREA);
+    setIsFormOpen(true);
+    setType("Add");
+  };
+
   const reset = () => {
     setCurArea({ name: null });
     setIsFormOpen(false);
@@ -73,8 +83,7 @@ const Home: NextPage = () => {
             filter={onFilterChange}
             loading={loading}
             isMobile={screen.xs}
-            setIsOpen={setIsFormOpen}
-            setType={setType}
+            onAddClick={onAddClick}
           />
         </div>
         <div className="content">
