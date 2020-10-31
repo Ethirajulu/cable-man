@@ -10,7 +10,7 @@ export const SET_LOGS = "SET/LOGS";
 export const SET_LOADING = "SET/LOADING";
 
 export const PAID_FOR_FORMAT = "MMMM yyyy";
-export const PAID_ON_FORMAT = "dd MMMM yyyy";
+export const PAID_ON_FORMAT = "Do MMMM yyyy";
 
 export const COMMON_AMOUNT = 200;
 
