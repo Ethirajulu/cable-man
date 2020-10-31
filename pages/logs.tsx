@@ -67,7 +67,7 @@ const Logs: NextPage<LogsProps> = ({ areaName, house }) => {
             isMobile={screen.xs}
           />
         </div>
-        <div className="content">
+        <div className="content_log">
           <LogItemList
             areaName={areaName}
             house={house}

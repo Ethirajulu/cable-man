@@ -61,12 +61,13 @@ export const AreaItemList: FC<AreaItemListProps> = ({
               key="edit_btn"
               icon={<EditOutlined />}
               onClick={() => onEditClick(area)}
-              className={styles.edit_button}
+              className={`${styles.edit_button} ${styles.no_border}`}
             />,
             <Button
               key="delete_btn"
               icon={<DeleteOutlined />}
               onClick={() => onDeleteClick(area)}
+              className={styles.no_border}
               danger
             />,
           ]}

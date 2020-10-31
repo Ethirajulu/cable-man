@@ -86,18 +86,18 @@ const Header: FC<HeaderProps> = ({
     <>
       {back ? (
         <PageHeader
-          className={styles.sticky}
           ghost={false}
           onBack={() => window.history.back()}
           title={title}
           extra={[open ? SearchInput : SearchIcon, addButton]}
+          className={styles.header}
         />
       ) : (
         <PageHeader
-          className={styles.sticky}
           ghost={false}
           title={title}
           extra={[open ? SearchInput : SearchIcon, addButton]}
+          className={styles.header}
         />
       )}
     </>

@@ -15,6 +15,7 @@ import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { setLoading } from "../redux/actions";
 import { useForm } from "antd/lib/form/Form";
+import AreaFooter from "../components/area/AreaFooter";
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store }) => {
@@ -95,6 +96,9 @@ const Home: NextPage = () => {
               setCurArea={setCurArea}
             />
           </Spin>
+        </div>
+        <div className="footer">
+          <AreaFooter totalAmount={0} />
         </div>
         <FormSheet
           title={`${type} Area`}

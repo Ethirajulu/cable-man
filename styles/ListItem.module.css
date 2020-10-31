@@ -7,6 +7,10 @@
   color: crimson;
 }
 
+.no_border {
+  border: none;
+}
+
 .pay_status {
   padding-right: 10px;
 }
@@ -16,7 +20,8 @@
 }
 
 .item {
-  background-color: whitesmoke;
+  background-color: #f9fcff;
+  /* background-color: aliceblue; */
   border-radius: 2px;
   padding-left: 10px;
 }
@@ -35,8 +40,9 @@
 }
 
 .list {
-  padding: 25px;
-  max-height: 50vh;
+  margin-top: 10px;
+  padding: 5px;
+  max-height: 45vh;
   overflow: auto;
 }
 
