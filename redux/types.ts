@@ -9,6 +9,11 @@ export const DELETE_HOUSE = "DELETE/HOUSE";
 export const SET_LOGS = "SET/LOGS";
 export const SET_LOADING = "SET/LOADING";
 
+export const PAID_FOR_FORMAT = "MMMM yyyy";
+export const PAID_ON_FORMAT = "dd MMMM yyyy";
+
+export const COMMON_AMOUNT = 200;
+
 export interface House {
   id?: string;
   area_id: string;
@@ -31,7 +36,8 @@ export interface Log {
   house_name: string;
   box_no: string;
   paid_amt: number;
-  created_on: string;
+  paid_for: string;
+  paid_on: string;
 }
 
 interface SetAreasAction {

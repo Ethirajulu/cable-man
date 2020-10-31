@@ -10,13 +10,13 @@ import {
 import { Avatar, Button, Col, Divider, List, Row, Space } from "antd";
 import Item from "antd/lib/list/Item";
 import confirm from "antd/lib/modal/confirm";
-import { DateTime } from "luxon";
+import moment from "moment";
 import Link from "next/link";
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../redux/actions";
 import { deleteHouseThunk } from "../../redux/thunk";
-import { House } from "../../redux/types";
+import { House, PAID_FOR_FORMAT } from "../../redux/types";
 
 import styles from "../../styles/ListItem.module.css";
 
@@ -65,15 +65,15 @@ const HouseItemList: FC<HouseItemListProps> = ({
     setPayFormStatus(true);
   };
 
-  const IconText = ({ icon, text, color = null }) => (
-    <Space style={color && { color: color }}>
+  const IconText = ({ icon, text }) => (
+    <Space>
       {React.createElement(icon)}
       {text}
     </Space>
   );
 
   const checkIsPaid = (lastPaidDate: string) => {
-    const todaysDate = DateTime.local().toFormat("MMMM-yyyy");
+    const todaysDate = moment().format(PAID_FOR_FORMAT).toString();
     let isPaid = false;
     if (lastPaidDate === todaysDate) {
       isPaid = true;
@@ -91,7 +91,13 @@ const HouseItemList: FC<HouseItemListProps> = ({
           extra={
             <div className={styles.pay_status}>
               {house.last_paid && checkIsPaid(house.last_paid) ? (
-                <IconText icon={CheckOutlined} text="Paid" color="green" />
+                <Button
+                  type="link"
+                  onClick={() => onNotPaidClick(house)}
+                  style={{ color: "green" }}
+                >
+                  <CheckOutlined /> Paid
+                </Button>
               ) : (
                 <Button
                   type="link"

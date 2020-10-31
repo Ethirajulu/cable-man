@@ -41,10 +41,11 @@ const LogItemList: FC<LogItemListProps> = ({
         </Descriptions.Item>
       </Descriptions>
       <List
+        itemLayout="horizontal"
+        size="small"
         dataSource={logs}
         renderItem={(log: Log) => (
           <Item
-            className={styles.item}
             actions={[
               <Space key="amount_paid" className={styles.paid_amt}>
                 <DollarCircleOutlined />
@@ -53,8 +54,9 @@ const LogItemList: FC<LogItemListProps> = ({
             ]}
           >
             <Item.Meta
-              title={log.created_on}
+              title={log.paid_for}
               avatar={<Avatar src="/images/calendar.svg" />}
+              description={`Paid on ${log.paid_on}`}
             />
           </Item>
         )}

@@ -1,4 +1,5 @@
 import { message } from "antd";
+import moment from "moment";
 import { db } from "../config/fire-config";
 import {
   addArea,
@@ -13,7 +14,7 @@ import {
   updateHouse,
 } from "./actions";
 import { AppThunk } from "./store";
-import { Area, House, Log } from "./types";
+import { Area, House, Log, PAID_FOR_FORMAT } from "./types";
 
 export const getAreasThunk = (): AppThunk => async (dispatch) => {
   try {
@@ -156,12 +157,18 @@ export const updatePaymentThunk = (log: Log, house: House): AppThunk => async (
 ) => {
   try {
     await db.collection("logs").add(log);
-    const newHouse: House = {
-      ...house,
-      last_paid: log.created_on,
-    };
-    await db.collection("houses").doc(log.house_id).set(newHouse);
-    dispatch(updateHouse(newHouse));
+    const currentMonth = moment().format(PAID_FOR_FORMAT).toString();
+    if (currentMonth === log.paid_for) {
+      const newHouse: House = {
+        ...house,
+        last_paid: log.paid_for,
+      };
+      await db.collection("houses").doc(log.house_id).set(newHouse);
+      dispatch(updateHouse(newHouse));
+    } else {
+      message.success(`Marked paid for ${log.paid_for}`);
+      dispatch(setLoading(false));
+    }
   } catch (err) {
     message.error("Payment failed");
     dispatch(setLoading(false));

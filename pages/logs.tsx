@@ -1,7 +1,7 @@
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Header from "../components/Header";
 import LogItemList from "../components/log/LogItemList";
@@ -31,15 +31,18 @@ export interface LogsProps {
 }
 
 const Logs: NextPage<LogsProps> = ({ areaName, house }) => {
+  const logs: Log[] = useSelector(getLogsSl);
   const screen = useBreakpoint();
-  const logs = useSelector(getLogsSl);
   const [filteredLogs, setFilteredLogs] = useState<Log[]>(logs);
+
+  useEffect(() => {
+    setFilteredLogs(logs);
+  }, [logs]);
 
   const onFilterChange = (value: string) => {
     if (value !== "") {
       const logsFiltered = logs.filter(
-        (log) =>
-          log.created_on.toLowerCase().indexOf(value.toLowerCase()) !== -1
+        (log) => log.paid_for.toLowerCase().indexOf(value.toLowerCase()) !== -1
       );
       setFilteredLogs(logsFiltered);
     } else {

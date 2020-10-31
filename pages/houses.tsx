@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { wrapper } from "../redux/store";
 import { getHousesThunk } from "../redux/thunk";
-import { House } from "../redux/types";
+import { COMMON_AMOUNT, House } from "../redux/types";
 import { useSelector, useDispatch } from "react-redux";
 import { getHousesSl, getLoadingSl } from "../redux/selectors";
 import { setLoading } from "../redux/actions";
@@ -38,7 +38,7 @@ export interface HousesProps {
 const EMPTY_HOUSE: House = {
   area_id: null,
   box_no: null,
-  default_amt: null,
+  default_amt: COMMON_AMOUNT,
   name: null,
   last_paid: null,
   phone_no: null,

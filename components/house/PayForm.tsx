@@ -1,9 +1,9 @@
-import { Button, Form, Input, InputNumber } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber } from "antd";
 import React, { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DateTime } from "luxon";
+import moment from "moment";
 import { getLoadingSl } from "../../redux/selectors";
-import { House, Log } from "../../redux/types";
+import { House, Log, PAID_FOR_FORMAT, PAID_ON_FORMAT } from "../../redux/types";
 import { updatePaymentThunk } from "../../redux/thunk";
 import { setLoading } from "../../redux/actions";
 
@@ -19,7 +19,7 @@ const PayForm: FC<PayFormProps> = ({ house, areaName, isMobile }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    form.setFieldsValue(house);
+    form.setFieldsValue({ ...house, created_on: moment() });
   }, [house]);
 
   const onSubmit = (values) => {
@@ -29,7 +29,8 @@ const PayForm: FC<PayFormProps> = ({ house, areaName, isMobile }) => {
       house_name: house.name,
       box_no: house.box_no,
       paid_amt: values.default_amt,
-      created_on: DateTime.local().toFormat("MMMM-yyyy"),
+      paid_for: values.created_on.format(PAID_FOR_FORMAT).toString(),
+      paid_on: moment().format(PAID_ON_FORMAT).toString(),
     };
     dispatch(setLoading(true));
     dispatch(updatePaymentThunk(log, house));
@@ -44,7 +45,7 @@ const PayForm: FC<PayFormProps> = ({ house, areaName, isMobile }) => {
 
   const buttonItemLayout = isMobile
     ? {
-        wrapperCol: { span: 4, offset: 18 },
+        wrapperCol: { span: 5, offset: 16 },
       }
     : null;
 
@@ -77,9 +78,12 @@ const PayForm: FC<PayFormProps> = ({ house, areaName, isMobile }) => {
       >
         <InputNumber min={0} />
       </Form.Item>
+      <Form.Item label="Month" name="created_on">
+        <DatePicker picker="month" />
+      </Form.Item>
       <Form.Item {...buttonItemLayout}>
         <Button type="primary" htmlType="submit" loading={loading}>
-          Paid
+          Mark Paid
         </Button>
       </Form.Item>
     </Form>
