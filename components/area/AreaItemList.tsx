@@ -71,7 +71,7 @@ export const AreaItemList: FC<AreaItemListProps> = ({
               danger
             />,
           ]}
-          className={styles.meta}
+          className={styles.item}
         >
           <Link
             href={{

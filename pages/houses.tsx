@@ -14,6 +14,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import FormSheet from "../components/FormSheet";
 import HouseItemList from "../components/house/HouseItemList";
 import HouseForm from "../components/house/HouseForm";
+import PayForm from "../components/house/PayForm";
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store, query }) => {
@@ -40,6 +41,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
   const dispatch = useDispatch();
   const [housesFiltered, setHousesFiltered] = useState<House[]>(houses);
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
+  const [isPayFormOpen, setPayFormStatus] = useState<boolean>(false);
   const [curHouse, setCurHouse] = useState<House | null>(null);
   const [type, setType] = useState<string>("Add");
   const screen = useBreakpoint();
@@ -59,6 +61,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
 
   useEffect(() => {
     setIsFormOpen(false);
+    setPayFormStatus(false);
     dispatch(setLoading(false));
     setHousesFiltered(houses);
   }, [houses]);
@@ -68,6 +71,12 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
       setCurHouse(null);
     }
   }, [isFormOpen]);
+
+  // useEffect(() => {
+  //   if (!isPayFormOpen) {
+  //     setCurHouse(null);
+  //   }
+  // }, [isPayFormOpen]);
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -92,9 +101,10 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
         <div className="content">
           <Spin spinning={loading} indicator={antIcon}>
             <HouseItemList
-              houses={houses}
+              houses={housesFiltered}
               setType={setType}
               setIsOpen={setIsFormOpen}
+              setPayFormStatus={setPayFormStatus}
               setCurHouse={setCurHouse}
             />
           </Spin>
@@ -106,6 +116,20 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
           setIsOpen={setIsFormOpen}
         >
           <HouseForm areaId={areaId} house={curHouse} isMobile={screen.xs} />
+        </FormSheet>
+        <FormSheet
+          title="Pay"
+          isMobile={screen.xs}
+          isOpen={isPayFormOpen}
+          setIsOpen={setPayFormStatus}
+        >
+          {curHouse && (
+            <PayForm
+              areaName={areaName}
+              house={curHouse}
+              isMobile={screen.xs}
+            />
+          )}
         </FormSheet>
       </div>
     </>

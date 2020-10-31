@@ -12,7 +12,7 @@ import {
   updateHouse,
 } from "./actions";
 import { AppThunk } from "./store";
-import { Area, House } from "./types";
+import { Area, House, Log } from "./types";
 
 export const getAreasThunk = (): AppThunk => async (dispatch) => {
   try {
@@ -62,6 +62,22 @@ export const updateAreaThunk = (id: string, name: string): AppThunk => async (
 export const deleteAreaThunk = (id: string): AppThunk => async (dispatch) => {
   try {
     await db.collection("areas").doc(id).delete();
+    await db
+      .collection("houses")
+      .where("area_id", "==", id)
+      .get()
+      .then(function (querySnapshot) {
+        // Once we get the results, begin a batch
+        var batch = db.batch();
+
+        querySnapshot.forEach(function (doc) {
+          // For each doc, add a delete operation to the batch
+          batch.delete(doc.ref);
+        });
+
+        // Commit the batch
+        return batch.commit();
+      });
     dispatch(deleteArea(id));
     message.success("Area deleted successfully");
   } catch (err) {
@@ -130,6 +146,23 @@ export const deleteHouseThunk = (id: string): AppThunk => async (dispatch) => {
     message.success("House deleted successfully");
   } catch (err) {
     message.error("Deleting house failed");
+    dispatch(setLoading(false));
+  }
+};
+
+export const updatePaymentThunk = (log: Log, house: House): AppThunk => async (
+  dispatch
+) => {
+  try {
+    await db.collection("logs").add(log);
+    const newHouse: House = {
+      ...house,
+      last_paid: log.created_on,
+    };
+    await db.collection("houses").doc(log.house_id).set(newHouse);
+    dispatch(updateHouse(newHouse));
+  } catch (err) {
+    message.error("Payment failed");
     dispatch(setLoading(false));
   }
 };

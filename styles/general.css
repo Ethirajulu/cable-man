@@ -14,3 +14,8 @@
 .ant-drawer-close:hover {
   color: brown;
 }
+
+.ant-page-header-heading-title {
+  max-width: 50vw;
+  overflow-wrap: break-word;
+}

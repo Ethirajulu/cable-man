@@ -8,5 +8,10 @@
     // For Stylelint
     "source.fixAll.stylelint": true
   },
-  "cSpell.words": ["devtools", "docgen", "renderprops"]
+  "cSpell.words": [
+    "devtools",
+    "docgen",
+    "luxon",
+    "renderprops"
+  ]
 }

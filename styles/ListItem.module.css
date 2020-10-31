@@ -1,18 +1,28 @@
 .edit_button {
   color: #b59b1d;
-  border-color: #b59b1d;
+  /* border-color: #b59b1d; */
+}
+
+.delete_button {
+  color: crimson;
+}
+
+.pay_status {
+  padding-right: 10px;
+}
+
+.des_col {
+  padding-bottom: 10px;
 }
 
 .item {
-  position: relative;
-  min-height: 58px;
+  background-color: whitesmoke;
+  border-radius: 2px;
+  padding-left: 10px;
 }
 
 .meta {
-  background-color: whitesmoke;
-  width: 100vw;
-  border-radius: 2px;
-  padding-left: 10px;
+  margin-bottom: 0px !important;
 }
 
 .anchor {
@@ -26,8 +36,4 @@
   z-index: 1;
   padding-top: 10px;
   padding-right: 10px;
-} */
-
-/* .edit_button {
-  padding: 4px 25px;
 } */

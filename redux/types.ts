@@ -14,6 +14,7 @@ export interface House {
   name: string;
   default_amt: number;
   box_no: string;
+  last_paid?: string;
 }
 
 export interface Area {
@@ -24,10 +25,11 @@ export interface Area {
 export interface Log {
   id?: string;
   area_name: string;
+  house_id: string;
   house_name: string;
   box_no: string;
   paid_amt: number;
-  created_on: Date;
+  created_on: string;
 }
 
 interface SetAreasAction {

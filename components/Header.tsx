@@ -72,6 +72,7 @@ const Header: FC<HeaderProps> = ({
       icon={<PlusOutlined />}
       size={isMobile ? "small" : "middle"}
       className={styles.extras_margin}
+      style={{ display: open && "none" }}
       onClick={onAddClick}
     />
   );
