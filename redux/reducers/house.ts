@@ -28,7 +28,7 @@ export const houseReducer = (
       updatedHouses = state.houses.filter(
         (house) => house.id !== action.house.id
       );
-      updatedHouses.push(action.area);
+      updatedHouses.push(action.house);
       return { ...state, houses: updatedHouses };
     case DELETE_HOUSE:
       updatedHouses = state.houses.filter((house) => house.id !== action.id);

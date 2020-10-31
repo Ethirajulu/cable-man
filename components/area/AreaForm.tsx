@@ -1,5 +1,5 @@
 import { Button, Form, Input } from "antd";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "../../redux/actions";
 import { getLoadingSl } from "../../redux/selectors";
@@ -15,6 +15,10 @@ const AreaForm: FC<AreaFormProps> = ({ area, isMobile }) => {
   const [form] = Form.useForm();
   const loading = useSelector(getLoadingSl);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    form.resetFields();
+  }, [area]);
 
   const onSubmit = (values) => {
     const areaName = values.name;

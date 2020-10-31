@@ -3,15 +3,18 @@ import {
   EditOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { Button, List, Modal, Space } from "antd";
+import { Button, List } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
+import Link from "next/link";
 import { setLoading } from "../../redux/actions";
 import { deleteAreaThunk } from "../../redux/thunk";
 import { Area } from "../../redux/types";
 
-import styles from "../../styles/AreaItem.module.css";
+import styles from "../../styles/ListItem.module.css";
+import Item from "antd/lib/list/Item";
+import confirm from "antd/lib/modal/confirm";
 
 export interface AreaItemListProps {
   areas: Area[];
@@ -19,8 +22,6 @@ export interface AreaItemListProps {
   setIsOpen: (isOpen: boolean) => void;
   setCurArea: (area: Area) => void;
 }
-
-const Item = List.Item;
 
 export const AreaItemList: FC<AreaItemListProps> = ({
   areas,
@@ -36,7 +37,7 @@ export const AreaItemList: FC<AreaItemListProps> = ({
   };
 
   const onDeleteClick = (area: Area) => {
-    Modal.confirm({
+    confirm({
       title: "Confirm",
       icon: <ExclamationCircleOutlined />,
       content: `Do you want to delete ${area.name} area?`,
@@ -53,27 +54,42 @@ export const AreaItemList: FC<AreaItemListProps> = ({
   return (
     <List
       dataSource={areas}
-      renderItem={(item) => (
+      renderItem={(area) => (
         <Item
-          key={item.id}
+          key={area.id}
           actions={[
             <Button
+              key="edit_btn"
               icon={<EditOutlined />}
-              onClick={() => onEditClick(item)}
+              onClick={() => onEditClick(area)}
               className={styles.edit_button}
             />,
             <Button
+              key="delete_btn"
               icon={<DeleteOutlined />}
-              onClick={() => onDeleteClick(item)}
+              onClick={() => onDeleteClick(area)}
               danger
             />,
           ]}
           className={styles.meta}
         >
-          <Item.Meta
-            avatar={<Avatar src="/images/area.svg" />}
-            title={item.name}
-          />
+          <Link
+            href={{
+              pathname: `/houses`,
+              query: {
+                areaId: area.id,
+                name: area.name,
+              },
+            }}
+            passHref
+          >
+            <a style={{ width: "inherit" }}>
+              <Item.Meta
+                avatar={<Avatar src="/images/area.svg" />}
+                title={area.name}
+              />
+            </a>
+          </Link>
         </Item>
       )}
     />

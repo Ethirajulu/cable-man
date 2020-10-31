@@ -9,7 +9,7 @@ export const DELETE_HOUSE = "DELETE/HOUSE";
 export const SET_LOADING = "SET/LOADING";
 
 export interface House {
-  id: string;
+  id?: string;
   area_id: string;
   name: string;
   default_amt: number;
@@ -17,12 +17,12 @@ export interface House {
 }
 
 export interface Area {
-  id: string;
+  id?: string;
   name: string;
 }
 
 export interface Log {
-  id: string;
+  id?: string;
   area_name: string;
   house_name: string;
   box_no: string;

@@ -1,58 +1,71 @@
 import { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import { useSelector, useDispatch } from "react-redux";
-import { wrapper } from "../redux/store";
-import { getAreasThunk } from "../redux/thunk";
-import { getAreasSl, getLoadingSl } from "../redux/selectors";
-import AreaItemList from "../components/area/AreaItemList";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
+import { wrapper } from "../redux/store";
+import { getHousesThunk } from "../redux/thunk";
+import { House } from "../redux/types";
+import { useSelector, useDispatch } from "react-redux";
+import { getHousesSl, getLoadingSl } from "../redux/selectors";
+import { setLoading } from "../redux/actions";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
-import { useEffect, useState } from "react";
-import { Area } from "../redux/types";
-import FormSheet from "../components/FormSheet";
-import AreaForm from "../components/area/AreaForm";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import { setLoading } from "../redux/actions";
+import FormSheet from "../components/FormSheet";
+import HouseItemList from "../components/house/HouseItemList";
+import HouseForm from "../components/house/HouseForm";
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
-  async ({ store }) => {
-    await store.dispatch(getAreasThunk());
+  async ({ store, query }) => {
+    if (typeof query.areaId === "string") {
+      await store.dispatch(getHousesThunk(query.areaId));
+    }
+    return {
+      props: {
+        areaName: query.name,
+        areaId: query.areaId,
+      },
+    };
   }
 );
 
-const Home: NextPage = () => {
-  const areas: Area[] = useSelector(getAreasSl);
+export interface HousesProps {
+  areaName: string;
+  areaId: string;
+}
+
+const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
+  const houses: House[] = useSelector(getHousesSl);
   const loading: boolean = useSelector(getLoadingSl);
   const dispatch = useDispatch();
-  const [areasFiltered, setAreasFiltered] = useState<Area[]>(areas);
-  const [curArea, setCurArea] = useState<Area | null>(null);
-  const [type, setType] = useState<string>("Add");
+  const [housesFiltered, setHousesFiltered] = useState<House[]>(houses);
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
+  const [curHouse, setCurHouse] = useState<House | null>(null);
+  const [type, setType] = useState<string>("Add");
   const screen = useBreakpoint();
 
   const onFilterChange = (value: string) => {
     if (value !== "") {
       dispatch(setLoading(true));
-      const filteredAreas = areas.filter(
+      const filteredHouses = houses.filter(
         (area) => area.name.toLowerCase().indexOf(value.toLowerCase()) !== -1
       );
-      setAreasFiltered(filteredAreas);
+      setHousesFiltered(filteredHouses);
       dispatch(setLoading(false));
     } else {
-      setAreasFiltered(areas);
+      setHousesFiltered(houses);
     }
   };
 
   useEffect(() => {
     setIsFormOpen(false);
     dispatch(setLoading(false));
-    setAreasFiltered(areas);
-  }, [areas]);
+    setHousesFiltered(houses);
+  }, [houses]);
 
   useEffect(() => {
     if (!isFormOpen) {
-      setCurArea(null);
+      setCurHouse(null);
     }
   }, [isFormOpen]);
 
@@ -61,14 +74,14 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Cable Man</title>
+        <title>Houses</title>
         <link rel="icon" href="/icons/favicon.ico" />
       </Head>
       <div className="wrapper">
         <div className="header">
           <Header
-            title="Cable Man"
-            back={false}
+            title={areaName}
+            back
             filter={onFilterChange}
             loading={loading}
             isMobile={screen.xs}
@@ -78,25 +91,25 @@ const Home: NextPage = () => {
         </div>
         <div className="content">
           <Spin spinning={loading} indicator={antIcon}>
-            <AreaItemList
-              areas={areasFiltered}
+            <HouseItemList
+              houses={houses}
               setType={setType}
               setIsOpen={setIsFormOpen}
-              setCurArea={setCurArea}
+              setCurHouse={setCurHouse}
             />
           </Spin>
         </div>
         <FormSheet
-          title={`${type} Area`}
+          title={`${type} House`}
           isOpen={isFormOpen}
           isMobile={screen.xs}
           setIsOpen={setIsFormOpen}
         >
-          <AreaForm area={curArea} isMobile={screen.xs} />
+          <HouseForm areaId={areaId} house={curHouse} isMobile={screen.xs} />
         </FormSheet>
       </div>
     </>
   );
 };
 
-export default Home;
+export default Houses;

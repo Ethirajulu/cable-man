@@ -31,6 +31,7 @@
     "@storybook/addon-essentials": "^6.0.27",
     "@storybook/addon-links": "^6.0.27",
     "@storybook/react": "^6.0.27",
+    "@types/react-redux": "^7.1.9",
     "babel-loader": "^8.1.0",
     "emotion": "10.0.27",
     "emotion-server": "10.0.27",

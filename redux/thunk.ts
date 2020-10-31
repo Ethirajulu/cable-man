@@ -2,13 +2,17 @@ import { message } from "antd";
 import { db } from "../config/fire-config";
 import {
   addArea,
+  addHouse,
   deleteArea,
+  deleteHouse,
   setAreas,
+  setHouses,
   setLoading,
   updateArea,
+  updateHouse,
 } from "./actions";
 import { AppThunk } from "./store";
-import { Area } from "./types";
+import { Area, House } from "./types";
 
 export const getAreasThunk = (): AppThunk => async (dispatch) => {
   try {
@@ -61,8 +65,71 @@ export const deleteAreaThunk = (id: string): AppThunk => async (dispatch) => {
     dispatch(deleteArea(id));
     message.success("Area deleted successfully");
   } catch (err) {
-    console.log("err: ", err);
     message.error("Deleting area failed");
+    dispatch(setLoading(false));
+  }
+};
+
+export const getHousesThunk = (areaId: string): AppThunk => async (
+  dispatch
+) => {
+  try {
+    const docs = (
+      await db.collection("houses").where("area_id", "==", areaId).get()
+    ).docs;
+    let houses: House[] = [];
+    let house: House;
+    let data = null;
+    docs.forEach((doc) => {
+      data = doc.data();
+      house = { id: doc.id, ...data };
+      houses.push(house);
+    });
+    dispatch(setHouses(houses));
+  } catch (err) {
+    message.error("Listing houses failed");
+    dispatch(setLoading(false));
+  }
+};
+
+export const addHouseThunk = (house: House): AppThunk => async (dispatch) => {
+  try {
+    const { id, ...rest } = house;
+    const docs = await db.collection("houses").add(rest);
+    dispatch(
+      addHouse({
+        id: docs.id,
+        ...rest,
+      })
+    );
+    message.success("House successfully added");
+  } catch (err) {
+    message.error("Adding house failed");
+    dispatch(setLoading(false));
+  }
+};
+
+export const updateHouseThunk = (house: House): AppThunk => async (
+  dispatch
+) => {
+  try {
+    const { id, ...rest } = house;
+    await db.collection("houses").doc(id).set(rest);
+    dispatch(updateHouse(house));
+    message.success("House updated successfully");
+  } catch (err) {
+    message.error("Updating house failed");
+    dispatch(setLoading(false));
+  }
+};
+
+export const deleteHouseThunk = (id: string): AppThunk => async (dispatch) => {
+  try {
+    await db.collection("houses").doc(id).delete();
+    dispatch(deleteHouse(id));
+    message.success("House deleted successfully");
+  } catch (err) {
+    message.error("Deleting house failed");
     dispatch(setLoading(false));
   }
 };

@@ -21,6 +21,7 @@ const FormSheet: FC<FormSheetProps> = ({
       visible={isOpen}
       placement={isMobile ? "bottom" : "right"}
       onClose={() => setIsOpen(false)}
+      height="fit-content"
     >
       {children}
     </Drawer>
