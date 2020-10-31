@@ -45,7 +45,7 @@ const Home: NextPage = () => {
   };
 
   useEffect(() => {
-    setIsFormOpen(false);
+    reset();
     dispatch(setLoading(false));
     setAreasFiltered(areas);
   }, [areas]);
@@ -55,6 +55,10 @@ const Home: NextPage = () => {
       setCurArea(null);
     }
   }, [isFormOpen]);
+
+  const reset = () => {
+    setIsFormOpen(false);
+  };
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -90,7 +94,7 @@ const Home: NextPage = () => {
           title={`${type} Area`}
           isOpen={isFormOpen}
           isMobile={screen.xs}
-          setIsOpen={setIsFormOpen}
+          onClose={reset}
         >
           <AreaForm area={curArea} isMobile={screen.xs} />
         </FormSheet>

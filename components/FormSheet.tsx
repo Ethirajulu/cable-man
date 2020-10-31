@@ -5,14 +5,14 @@ export interface FormSheetProps {
   title: string;
   isOpen: boolean;
   isMobile: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  onClose: () => void;
 }
 
 const FormSheet: FC<FormSheetProps> = ({
   title,
   isOpen,
   isMobile,
-  setIsOpen,
+  onClose,
   children,
 }) => {
   return (
@@ -20,7 +20,7 @@ const FormSheet: FC<FormSheetProps> = ({
       title={title}
       visible={isOpen}
       placement={isMobile ? "bottom" : "right"}
-      onClose={() => setIsOpen(false)}
+      onClose={onClose}
       height="fit-content"
     >
       {children}

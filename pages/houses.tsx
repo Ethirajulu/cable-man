@@ -60,10 +60,9 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
   };
 
   useEffect(() => {
-    setIsFormOpen(false);
-    setPayFormStatus(false);
-    dispatch(setLoading(false));
+    reset();
     setHousesFiltered(houses);
+    dispatch(setLoading(false));
   }, [houses]);
 
   useEffect(() => {
@@ -72,11 +71,10 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
     }
   }, [isFormOpen]);
 
-  // useEffect(() => {
-  //   if (!isPayFormOpen) {
-  //     setCurHouse(null);
-  //   }
-  // }, [isPayFormOpen]);
+  const reset = () => {
+    setIsFormOpen(false);
+    setPayFormStatus(false);
+  };
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -113,7 +111,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
           title={`${type} House`}
           isOpen={isFormOpen}
           isMobile={screen.xs}
-          setIsOpen={setIsFormOpen}
+          onClose={reset}
         >
           <HouseForm areaId={areaId} house={curHouse} isMobile={screen.xs} />
         </FormSheet>
@@ -121,7 +119,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
           title="Pay"
           isMobile={screen.xs}
           isOpen={isPayFormOpen}
-          setIsOpen={setPayFormStatus}
+          onClose={reset}
         >
           {curHouse && (
             <PayForm
