@@ -10,15 +10,15 @@ import {
 import { Avatar, Button, Col, Divider, List, Row, Space } from "antd";
 import Item from "antd/lib/list/Item";
 import confirm from "antd/lib/modal/confirm";
-import moment from "moment";
 import Link from "next/link";
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../redux/actions";
 import { deleteHouseThunk } from "../../redux/thunk";
-import { EDIT_LABEL, House, PAID_FOR_FORMAT } from "../../redux/types";
+import { EDIT_LABEL, House } from "../../redux/types";
 
 import styles from "../../styles/ListItem.module.css";
+import { checkIsPaid } from "../../utils";
 
 export interface HouseItemListProps {
   houses: House[];
@@ -71,15 +71,6 @@ const HouseItemList: FC<HouseItemListProps> = ({
       {text}
     </Space>
   );
-
-  const checkIsPaid = (lastPaidDate: string) => {
-    const todaysDate = moment().format(PAID_FOR_FORMAT).toString();
-    let isPaid = false;
-    if (lastPaidDate === todaysDate) {
-      isPaid = true;
-    }
-    return isPaid;
-  };
 
   return (
     <List

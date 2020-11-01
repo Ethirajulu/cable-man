@@ -11,14 +11,15 @@ import { ALL, House, NOT_PAID, PAID } from "../../redux/types";
 import styles from "../../styles/ListItem.module.css";
 
 export interface HouseFooterProps {
-  houses: House[];
-  setHousesFiltered: (house: House[]) => void;
+  onFilterChange: (filterValue: string) => void;
 }
 
-const HouseFooter: FC<HouseFooterProps> = ({ houses, setHousesFiltered }) => {
+const HouseFooter: FC<HouseFooterProps> = ({ onFilterChange }) => {
   const [filterOption, setFilterOption] = useState<string>(ALL);
-  const onFilterChange = (e: any) => {
+
+  const onMenuChange = (e: any) => {
     setFilterOption(e.key);
+    onFilterChange(e.key);
   };
 
   const menu = (
@@ -26,7 +27,7 @@ const HouseFooter: FC<HouseFooterProps> = ({ houses, setHousesFiltered }) => {
       className={styles.filter_menu}
       triggerSubMenuAction="click"
       selectedKeys={[filterOption]}
-      onClick={onFilterChange}
+      onClick={onMenuChange}
     >
       <Menu.Item key={PAID} icon={<CheckOutlined style={{ color: "green" }} />}>
         Paid

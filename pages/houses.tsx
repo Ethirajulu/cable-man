@@ -22,6 +22,7 @@ import HouseItemList from "../components/house/HouseItemList";
 import HouseForm from "../components/house/HouseForm";
 import PayForm from "../components/house/PayForm";
 import HouseFooter from "../components/house/HouseFooter";
+import { getHousesByStatus } from "../utils";
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store, query }) => {
@@ -66,19 +67,28 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
 
   const onSearchFilterChange = (value: string) => {
     setSearchFilter(value);
-    if (value !== EMPTY_STRING) {
-      dispatch(setLoading(true));
-      const filteredHouses = houses.filter(
-        (area) => area.name.toLowerCase().indexOf(value.toLowerCase()) !== -1
-      );
-      setHousesFiltered(filteredHouses);
-      dispatch(setLoading(false));
-    } else {
-      setHousesFiltered(houses);
-    }
+    onFilterChange(value, statusFilter);
   };
 
-  const onStatusFilterChange = (value) => {};
+  const onStatusFilterChange = (value: string) => {
+    setStatusFilter(value);
+    onFilterChange(searchFilter, value);
+  };
+
+  const onFilterChange = (searchFilter: string, statusFilter: string) => {
+    dispatch(setLoading(true));
+    const filteredHousesByStatus = getHousesByStatus(houses, statusFilter);
+    if (searchFilter !== EMPTY_STRING) {
+      const filteredHouses = filteredHousesByStatus.filter(
+        (area) =>
+          area.name.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1
+      );
+      setHousesFiltered(filteredHouses);
+    } else {
+      setHousesFiltered(filteredHousesByStatus);
+    }
+    dispatch(setLoading(false));
+  };
 
   useEffect(() => {
     reset();
@@ -131,7 +141,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
           </Spin>
         </div>
         <div className="footer">
-          <HouseFooter houses={houses} setHousesFiltered={setHousesFiltered} />
+          <HouseFooter onFilterChange={onStatusFilterChange} />
         </div>
         <FormSheet
           title={`${type} House`}
