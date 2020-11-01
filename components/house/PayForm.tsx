@@ -66,11 +66,7 @@ const PayForm: FC<PayFormProps> = ({ house, areaName, isMobile, reset }) => {
       >
         <Input disabled />
       </Form.Item>
-      <Form.Item
-        label="Box No"
-        name="box_no"
-        rules={[{ required: true, message: "Box number required" }]}
-      >
+      <Form.Item label="Box No" name="box_no">
         <Input disabled />
       </Form.Item>
       <Form.Item

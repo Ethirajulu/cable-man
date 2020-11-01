@@ -1,0 +1,17 @@
+.report_col {
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+}
+
+.report_btn {
+  color: white;
+  margin-top: 25px;
+}
+
+.color_white {
+  color: white;
+}
+
+.statistic {
+  margin-top: 10px;
+}

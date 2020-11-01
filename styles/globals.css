@@ -19,6 +19,11 @@ body {
   height: 80px;
 }
 
+.content_area {
+  overflow: auto;
+  height: calc(100% - 157px);
+}
+
 .content {
   overflow: auto;
   height: calc(100% - 110px);
@@ -29,8 +34,14 @@ body {
   height: calc(100% - 80px);
 }
 
+.footer_area {
+  height: 77px;
+  background-color: black;
+}
+
 .footer {
   height: 30px;
+  background-color: black;
 }
 
 a {

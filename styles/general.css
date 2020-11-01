@@ -20,6 +20,11 @@
   overflow-wrap: break-word;
 }
 
+.ant-statistic-title,
+.ant-statistic-content {
+  color: white;
+}
+
 /* .ant-list-item-meta-title {
   font-family: "Montserrat", sans-serif;
 } */

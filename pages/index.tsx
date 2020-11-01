@@ -14,12 +14,18 @@ import AreaForm from "../components/area/AreaForm";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { setLoading } from "../redux/actions";
-import { useForm } from "antd/lib/form/Form";
 import AreaFooter from "../components/area/AreaFooter";
+import { getTodaysCollectionThunk } from "../utils";
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store }) => {
     await store.dispatch(getAreasThunk());
+    const totalAmount = await getTodaysCollectionThunk();
+    return {
+      props: {
+        totalAmount,
+      },
+    };
   }
 );
 
@@ -27,7 +33,11 @@ const EMPTY_AREA: Area = {
   name: null,
 };
 
-const Home: NextPage = () => {
+export interface HomeProps {
+  totalAmount: number;
+}
+
+const Home: NextPage<HomeProps> = ({ totalAmount }) => {
   const areas: Area[] = useSelector(getAreasSl);
   const loading: boolean = useSelector(getLoadingSl);
   const dispatch = useDispatch();
@@ -87,7 +97,7 @@ const Home: NextPage = () => {
             onAddClick={onAddClick}
           />
         </div>
-        <div className="content">
+        <div className="content_area">
           <Spin spinning={loading} indicator={antIcon}>
             <AreaItemList
               areas={areasFiltered}
@@ -97,8 +107,8 @@ const Home: NextPage = () => {
             />
           </Spin>
         </div>
-        <div className="footer">
-          <AreaFooter totalAmount={0} />
+        <div className="footer_area">
+          <AreaFooter totalAmount={totalAmount} />
         </div>
         <FormSheet
           title={`${type} Area`}

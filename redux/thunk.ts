@@ -14,7 +14,7 @@ import {
   updateHouse,
 } from "./actions";
 import { AppThunk } from "./store";
-import { Area, House, Log, PAID_FOR_FORMAT } from "./types";
+import { Area, House, Log, PAID_FOR_FORMAT, PAID_ON_FORMAT } from "./types";
 
 export const getAreasThunk = (): AppThunk => async (dispatch) => {
   try {
@@ -28,7 +28,6 @@ export const getAreasThunk = (): AppThunk => async (dispatch) => {
     dispatch(setAreas(areas));
   } catch (err) {
     message.error("Listing areas failed");
-    dispatch(setLoading(false));
   }
 };
 
@@ -106,7 +105,6 @@ export const getHousesThunk = (areaId: string): AppThunk => async (
     dispatch(setHouses(houses));
   } catch (err) {
     message.error("Listing houses failed");
-    dispatch(setLoading(false));
   }
 };
 

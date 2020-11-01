@@ -47,7 +47,7 @@ const HouseFooter: FC<HouseFooterProps> = ({ onFilterChange }) => {
     </Menu>
   );
   return (
-    <Row style={{ backgroundColor: "black" }}>
+    <Row>
       <Col offset={18} span={6}>
         <Dropdown overlay={menu} placement="topCenter" trigger={["click"]}>
           <Button
