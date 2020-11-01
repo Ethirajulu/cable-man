@@ -9,8 +9,9 @@ export const DELETE_HOUSE = "DELETE/HOUSE";
 export const SET_LOGS = "SET/LOGS";
 export const SET_LOADING = "SET/LOADING";
 
-export const PAID_FOR_FORMAT = "MMMM yyyy";
-export const PAID_ON_FORMAT = "Do MMMM yyyy";
+export const PAID_FOR_FORMAT = "MMMM YYYY";
+export const PAID_ON_FORMAT = "Do MMMM YYYY";
+export const CREATED_FORMAT = "DD-MM-YYYY HH:mm:ss";
 
 export const EMPTY_STRING = "";
 export const COMMON_AMOUNT = 220;
@@ -22,6 +23,10 @@ export const ALL = "ALL";
 export const ADD_LABEL = "Add";
 export const EDIT_LABEL = "Edit";
 
+export const AREAS_COLLECTION = "areas";
+export const HOUSES_COLLECTION = "houses";
+export const LOGS_COLLECTION = "logs";
+
 export interface House {
   id?: string;
   area_id: string;
@@ -30,6 +35,8 @@ export interface House {
   default_amt: number;
   box_no?: string;
   last_paid?: string;
+  payment_id?: string;
+  created_on?: string;
 }
 
 export interface Area {

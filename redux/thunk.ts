@@ -14,11 +14,21 @@ import {
   updateHouse,
 } from "./actions";
 import { AppThunk } from "./store";
-import { Area, House, Log, PAID_FOR_FORMAT, PAID_ON_FORMAT } from "./types";
+import {
+  Area,
+  AREAS_COLLECTION,
+  EMPTY_STRING,
+  House,
+  HOUSES_COLLECTION,
+  Log,
+  LOGS_COLLECTION,
+  PAID_FOR_FORMAT,
+  PAID_ON_FORMAT,
+} from "./types";
 
 export const getAreasThunk = (): AppThunk => async (dispatch) => {
   try {
-    const docs = (await db.collection("areas").get()).docs;
+    const docs = (await db.collection(AREAS_COLLECTION).get()).docs;
     let areas: Area[] = [];
     let area: Area;
     docs.forEach((doc) => {
@@ -33,7 +43,7 @@ export const getAreasThunk = (): AppThunk => async (dispatch) => {
 
 export const addAreaThunk = (name: string): AppThunk => async (dispatch) => {
   try {
-    const docs = await db.collection("areas").add({ name });
+    const docs = await db.collection(AREAS_COLLECTION).add({ name });
     dispatch(
       addArea({
         id: docs.id,
@@ -51,7 +61,7 @@ export const updateAreaThunk = (id: string, name: string): AppThunk => async (
   dispatch
 ) => {
   try {
-    await db.collection("areas").doc(id).set({ name });
+    await db.collection(AREAS_COLLECTION).doc(id).set({ name });
     dispatch(updateArea({ id, name }));
     message.success("Area updated successfully");
   } catch (err) {
@@ -62,7 +72,7 @@ export const updateAreaThunk = (id: string, name: string): AppThunk => async (
 
 export const deleteAreaThunk = (id: string): AppThunk => async (dispatch) => {
   try {
-    await db.collection("areas").doc(id).delete();
+    await db.collection(AREAS_COLLECTION).doc(id).delete();
     await db
       .collection("houses")
       .where("area_id", "==", id)
@@ -92,7 +102,10 @@ export const getHousesThunk = (areaId: string): AppThunk => async (
 ) => {
   try {
     const docs = (
-      await db.collection("houses").where("area_id", "==", areaId).get()
+      await db
+        .collection(HOUSES_COLLECTION)
+        .where("area_id", "==", areaId)
+        .get()
     ).docs;
     let houses: House[] = [];
     let house: House;
@@ -111,7 +124,7 @@ export const getHousesThunk = (areaId: string): AppThunk => async (
 export const addHouseThunk = (house: House): AppThunk => async (dispatch) => {
   try {
     const { id, ...rest } = house;
-    const docs = await db.collection("houses").add(rest);
+    const docs = await db.collection(HOUSES_COLLECTION).add(rest);
     dispatch(
       addHouse({
         id: docs.id,
@@ -130,7 +143,7 @@ export const updateHouseThunk = (house: House): AppThunk => async (
 ) => {
   try {
     const { id, ...rest } = house;
-    await db.collection("houses").doc(id).set(rest);
+    await db.collection(HOUSES_COLLECTION).doc(id).set(rest);
     dispatch(updateHouse(house));
     message.success("House updated successfully");
   } catch (err) {
@@ -141,7 +154,7 @@ export const updateHouseThunk = (house: House): AppThunk => async (
 
 export const deleteHouseThunk = (id: string): AppThunk => async (dispatch) => {
   try {
-    await db.collection("houses").doc(id).delete();
+    await db.collection(HOUSES_COLLECTION).doc(id).delete();
     dispatch(deleteHouse(id));
     message.success("House deleted successfully");
   } catch (err) {
@@ -150,20 +163,21 @@ export const deleteHouseThunk = (id: string): AppThunk => async (dispatch) => {
   }
 };
 
-export const updatePaymentThunk = (
+export const makePaymentThunk = (
   log: Log,
   house: House,
   reset: () => void
 ): AppThunk => async (dispatch) => {
   try {
-    await db.collection("logs").add(log);
+    const doc = await db.collection(LOGS_COLLECTION).add(log);
     const currentMonth = moment().format(PAID_FOR_FORMAT).toString();
     if (currentMonth === log.paid_for) {
       const newHouse: House = {
         ...house,
         last_paid: log.paid_for,
+        payment_id: doc.id,
       };
-      await db.collection("houses").doc(log.house_id).set(newHouse);
+      await db.collection(HOUSES_COLLECTION).doc(log.house_id).set(newHouse);
       dispatch(updateHouse(newHouse));
     } else {
       reset();
@@ -176,10 +190,33 @@ export const updatePaymentThunk = (
   }
 };
 
+export const markNotPaidThunk = (house: House): AppThunk => async (
+  dispatch
+) => {
+  try {
+    await db.collection(LOGS_COLLECTION).doc(house.payment_id).delete();
+    const newHouse: House = {
+      ...house,
+      last_paid: EMPTY_STRING,
+      payment_id: EMPTY_STRING,
+    };
+    await db.collection(HOUSES_COLLECTION).doc(house.id).set(newHouse);
+    message.success(`Marked not Paid for ${house.name}`);
+    dispatch(updateHouse(newHouse));
+    dispatch(setLoading(false));
+  } catch (err) {
+    message.error("Mark not paid failed");
+    dispatch(setLoading(false));
+  }
+};
+
 export const getLogsThunk = (houseId: string): AppThunk => async (dispatch) => {
   try {
     const docs = (
-      await db.collection("logs").where("house_id", "==", houseId).get()
+      await db
+        .collection(LOGS_COLLECTION)
+        .where("house_id", "==", houseId)
+        .get()
     ).docs;
     let logs: Log[] = [];
     let log: Log;

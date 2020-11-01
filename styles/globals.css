@@ -26,7 +26,7 @@ body {
 
 .content {
   overflow: auto;
-  height: calc(100% - 110px);
+  height: calc(100% - 125px);
 }
 
 .content_log {
@@ -40,7 +40,7 @@ body {
 }
 
 .footer {
-  height: 30px;
+  height: 45px;
   background-color: black;
 }
 

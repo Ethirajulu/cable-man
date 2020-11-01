@@ -1,5 +1,5 @@
 import { FileTextOutlined } from "@ant-design/icons";
-import { Button, Col, Row, Space, Statistic } from "antd";
+import { Button, Col, Row, Space } from "antd";
 import Link from "next/link";
 import React, { FC } from "react";
 import { animated, useSpring } from "react-spring";

@@ -14,7 +14,7 @@ import Link from "next/link";
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../redux/actions";
-import { deleteHouseThunk } from "../../redux/thunk";
+import { deleteHouseThunk, markNotPaidThunk } from "../../redux/thunk";
 import { EDIT_LABEL, House } from "../../redux/types";
 
 import styles from "../../styles/ListItem.module.css";
@@ -65,6 +65,21 @@ const HouseItemList: FC<HouseItemListProps> = ({
     setPayFormStatus(true);
   };
 
+  const onPaidClick = (house: House) => {
+    confirm({
+      title: "Confirm",
+      icon: <ExclamationCircleOutlined />,
+      content: `Do you want to mark it not paid?`,
+      okText: "Yes",
+      cancelText: "No",
+      centered: true,
+      onOk: () => {
+        dispatch(setLoading(true));
+        dispatch(markNotPaidThunk(house));
+      },
+    });
+  };
+
   const IconText = ({ icon, text }) => (
     <Space>
       {React.createElement(icon)}
@@ -84,7 +99,7 @@ const HouseItemList: FC<HouseItemListProps> = ({
               {house.last_paid && checkIsPaid(house.last_paid) ? (
                 <Button
                   type="link"
-                  onClick={() => onNotPaidClick(house)}
+                  onClick={() => onPaidClick(house)}
                   style={{ color: "green" }}
                 >
                   <CheckOutlined /> Paid

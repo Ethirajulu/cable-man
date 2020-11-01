@@ -1,6 +1,8 @@
 import {
+  CREATED_FORMAT,
   House,
   Log,
+  LOGS_COLLECTION,
   NOT_PAID,
   PAID,
   PAID_FOR_FORMAT,
@@ -37,7 +39,10 @@ export const getTodaysCollectionThunk = async () => {
   try {
     const todaysDate = moment().format(PAID_ON_FORMAT).toString();
     const docs = (
-      await db.collection("logs").where("paid_on", "==", todaysDate).get()
+      await db
+        .collection(LOGS_COLLECTION)
+        .where("paid_on", "==", todaysDate)
+        .get()
     ).docs;
     let log = null;
     docs.forEach((doc) => {
@@ -50,4 +55,15 @@ export const getTodaysCollectionThunk = async () => {
   } finally {
     return totalAmount;
   }
+};
+
+export const sortHouses = (houses: House[]) => {
+  const sortedHouses = houses.sort((a, b) =>
+    getMoment(a.created_on).diff(getMoment(b.created_on))
+  );
+  return sortedHouses;
+};
+
+export const getMoment = (date: string) => {
+  return moment(date, CREATED_FORMAT);
 };

@@ -22,7 +22,7 @@ import HouseItemList from "../components/house/HouseItemList";
 import HouseForm from "../components/house/HouseForm";
 import PayForm from "../components/house/PayForm";
 import HouseFooter from "../components/house/HouseFooter";
-import { getHousesByStatus } from "../utils";
+import { getHousesByStatus, sortHouses } from "../utils";
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store, query }) => {
@@ -83,16 +83,16 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
         (area) =>
           area.name.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1
       );
-      setHousesFiltered(filteredHouses);
+      setHousesFiltered(sortHouses(filteredHouses));
     } else {
-      setHousesFiltered(filteredHousesByStatus);
+      setHousesFiltered(sortHouses(filteredHousesByStatus));
     }
     dispatch(setLoading(false));
   };
 
   useEffect(() => {
     reset();
-    setHousesFiltered(houses);
+    setHousesFiltered(sortHouses(houses));
     dispatch(setLoading(false));
   }, [houses]);
 

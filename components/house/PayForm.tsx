@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getLoadingSl } from "../../redux/selectors";
 import { House, Log, PAID_FOR_FORMAT, PAID_ON_FORMAT } from "../../redux/types";
-import { updatePaymentThunk } from "../../redux/thunk";
+import { makePaymentThunk } from "../../redux/thunk";
 import { setLoading } from "../../redux/actions";
 
 export interface PayFormProps {
@@ -34,7 +34,7 @@ const PayForm: FC<PayFormProps> = ({ house, areaName, isMobile, reset }) => {
       paid_on: moment().format(PAID_ON_FORMAT).toString(),
     };
     dispatch(setLoading(true));
-    dispatch(updatePaymentThunk(log, house, reset));
+    dispatch(makePaymentThunk(log, house, reset));
   };
 
   const formItemLayout = isMobile

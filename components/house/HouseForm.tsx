@@ -1,10 +1,11 @@
 import { Button, Form, Input, InputNumber } from "antd";
 import React, { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 import { setLoading } from "../../redux/actions";
 import { getLoadingSl } from "../../redux/selectors";
 import { addHouseThunk, updateHouseThunk } from "../../redux/thunk";
-import { EDIT_LABEL, House } from "../../redux/types";
+import { CREATED_FORMAT, EDIT_LABEL, House } from "../../redux/types";
 
 export interface HouseFormProps {
   house: House | null;
@@ -23,7 +24,7 @@ const HouseForm: FC<HouseFormProps> = ({ house, areaId, type, isMobile }) => {
   }, [house]);
 
   const onSubmit = (values: any) => {
-    const newHouse = {
+    let newHouse: House = {
       area_id: areaId,
       name: values.name,
       phone_no: values.phone_no,
@@ -33,8 +34,11 @@ const HouseForm: FC<HouseFormProps> = ({ house, areaId, type, isMobile }) => {
 
     dispatch(setLoading(true));
     if (type === EDIT_LABEL) {
+      newHouse.created_on = house.created_on;
       dispatch(updateHouseThunk({ id: house.id, ...newHouse }));
     } else {
+      const createdOn = moment().format(CREATED_FORMAT).toString();
+      newHouse.created_on = createdOn;
       dispatch(addHouseThunk(newHouse));
     }
   };
