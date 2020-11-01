@@ -85,40 +85,39 @@ const Home: NextPage<HomeProps> = ({ totalAmount }) => {
         <title>Cable Man</title>
         <link rel="icon" href="/icons/favicon.ico" />
       </Head>
-      <div className="wrapper">
-        <div className="header">
-          <Header
-            title="Cable Man"
-            back={false}
-            showAdd
-            filter={onFilterChange}
-            loading={loading}
-            isMobile={screen.xs}
-            onAddClick={onAddClick}
-          />
-        </div>
-        <div className="content_area">
-          <Spin spinning={loading} indicator={antIcon}>
-            <AreaItemList
-              areas={areasFiltered}
-              setType={setType}
-              setIsOpen={setIsFormOpen}
-              setCurArea={setCurArea}
-            />
-          </Spin>
-        </div>
-        <div className="footer_area">
-          <AreaFooter totalAmount={totalAmount} />
-        </div>
-        <FormSheet
-          title={`${type} Area`}
-          isOpen={isFormOpen}
+
+      <div className="header">
+        <Header
+          title="Cable Man"
+          back={false}
+          showAdd
+          filter={onFilterChange}
+          loading={loading}
           isMobile={screen.xs}
-          onClose={reset}
-        >
-          <AreaForm area={curArea} isMobile={screen.xs} type={type} />
-        </FormSheet>
+          onAddClick={onAddClick}
+        />
       </div>
+      <div className="content_area">
+        <Spin spinning={loading} indicator={antIcon}>
+          <AreaItemList
+            areas={areasFiltered}
+            setType={setType}
+            setIsOpen={setIsFormOpen}
+            setCurArea={setCurArea}
+          />
+        </Spin>
+      </div>
+      <div className="footer_area">
+        <AreaFooter totalAmount={totalAmount} />
+      </div>
+      <FormSheet
+        title={`${type} Area`}
+        isOpen={isFormOpen}
+        isMobile={screen.xs}
+        onClose={reset}
+      >
+        <AreaForm area={curArea} isMobile={screen.xs} type={type} />
+      </FormSheet>
     </>
   );
 };

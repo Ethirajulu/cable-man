@@ -116,60 +116,58 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
         <title>Houses</title>
         <link rel="icon" href="/icons/favicon.ico" />
       </Head>
-      <div className="wrapper">
-        <div className="header">
-          <Header
-            title={areaName}
-            back
-            showAdd
-            filter={onSearchFilterChange}
-            loading={loading}
-            isMobile={screen.xs}
-            onAddClick={onAddClick}
-          />
-        </div>
-        <div className="content">
-          <Spin spinning={loading} indicator={antIcon}>
-            <HouseItemList
-              areaName={areaName}
-              houses={housesFiltered}
-              setType={setType}
-              setIsOpen={setIsFormOpen}
-              setPayFormStatus={setPayFormStatus}
-              setCurHouse={setCurHouse}
-            />
-          </Spin>
-        </div>
-        <div className="footer">
-          <HouseFooter onFilterChange={onStatusFilterChange} />
-        </div>
-        <FormSheet
-          title={`${type} House`}
-          isOpen={isFormOpen}
+      <div className="header">
+        <Header
+          title={areaName}
+          back
+          showAdd
+          filter={onSearchFilterChange}
+          loading={loading}
           isMobile={screen.xs}
-          onClose={reset}
-        >
-          <HouseForm
-            areaId={areaId}
-            house={curHouse}
-            isMobile={screen.xs}
-            type={type}
-          />
-        </FormSheet>
-        <FormSheet
-          title="Pay"
-          isMobile={screen.xs}
-          isOpen={isPayFormOpen}
-          onClose={reset}
-        >
-          <PayForm
-            areaName={areaName}
-            house={curHouse}
-            isMobile={screen.xs}
-            reset={reset}
-          />
-        </FormSheet>
+          onAddClick={onAddClick}
+        />
       </div>
+      <div className="content">
+        <Spin spinning={loading} indicator={antIcon}>
+          <HouseItemList
+            areaName={areaName}
+            houses={housesFiltered}
+            setType={setType}
+            setIsOpen={setIsFormOpen}
+            setPayFormStatus={setPayFormStatus}
+            setCurHouse={setCurHouse}
+          />
+        </Spin>
+      </div>
+      <div className="footer">
+        <HouseFooter onFilterChange={onStatusFilterChange} />
+      </div>
+      <FormSheet
+        title={`${type} House`}
+        isOpen={isFormOpen}
+        isMobile={screen.xs}
+        onClose={reset}
+      >
+        <HouseForm
+          areaId={areaId}
+          house={curHouse}
+          isMobile={screen.xs}
+          type={type}
+        />
+      </FormSheet>
+      <FormSheet
+        title="Pay"
+        isMobile={screen.xs}
+        isOpen={isPayFormOpen}
+        onClose={reset}
+      >
+        <PayForm
+          areaName={areaName}
+          house={curHouse}
+          isMobile={screen.xs}
+          reset={reset}
+        />
+      </FormSheet>
     </>
   );
 };

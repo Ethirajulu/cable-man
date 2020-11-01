@@ -16,7 +16,9 @@ const WrappedApp: FC<AppProps> = ({ Component, pageProps }) => {
           content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
         />
       </Head>
-      <Component {...pageProps} />
+      <div className="wrapper">
+        <Component {...pageProps} />
+      </div>
     </>
   );
 };

@@ -56,25 +56,23 @@ const Logs: NextPage<LogsProps> = ({ areaName, house }) => {
         <title>Logs</title>
         <link rel="icon" href="/icons/favicon.ico" />
       </Head>
-      <div className="wrapper">
-        <div className="header">
-          <Header
-            title={house.name}
-            back
-            showAdd={false}
-            filter={onFilterChange}
-            loading={false}
-            isMobile={screen.xs}
-          />
-        </div>
-        <div className="content_log">
-          <LogItemList
-            areaName={areaName}
-            house={house}
-            logs={filteredLogs}
-            isMobile={screen.xs}
-          />
-        </div>
+      <div className="header">
+        <Header
+          title={house.name}
+          back
+          showAdd={false}
+          filter={onFilterChange}
+          loading={false}
+          isMobile={screen.xs}
+        />
+      </div>
+      <div className="content_log">
+        <LogItemList
+          areaName={areaName}
+          house={house}
+          logs={filteredLogs}
+          isMobile={screen.xs}
+        />
       </div>
     </>
   );
