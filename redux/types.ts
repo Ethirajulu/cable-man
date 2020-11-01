@@ -12,6 +12,8 @@ export const SET_LOADING = "SET/LOADING";
 export const PAID_FOR_FORMAT = "MMMM yyyy";
 export const PAID_ON_FORMAT = "Do MMMM yyyy";
 
+export const EMPTY_STRING = "";
+
 export const COMMON_AMOUNT = 200;
 
 export interface House {

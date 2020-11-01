@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { wrapper } from "../redux/store";
 import { getHousesThunk } from "../redux/thunk";
-import { COMMON_AMOUNT, House } from "../redux/types";
+import { COMMON_AMOUNT, EMPTY_STRING, House } from "../redux/types";
 import { useSelector, useDispatch } from "react-redux";
 import { getHousesSl, getLoadingSl } from "../redux/selectors";
 import { setLoading } from "../redux/actions";
@@ -56,7 +56,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
   const screen = useBreakpoint();
 
   const onFilterChange = (value: string) => {
-    if (value !== "") {
+    if (value !== EMPTY_STRING) {
       dispatch(setLoading(true));
       const filteredHouses = houses.filter(
         (area) => area.name.toLowerCase().indexOf(value.toLowerCase()) !== -1

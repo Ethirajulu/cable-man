@@ -8,7 +8,7 @@ import AreaItemList from "../components/area/AreaItemList";
 import Header from "../components/Header";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { useEffect, useState } from "react";
-import { Area } from "../redux/types";
+import { Area, EMPTY_STRING } from "../redux/types";
 import FormSheet from "../components/FormSheet";
 import AreaForm from "../components/area/AreaForm";
 import { Spin } from "antd";
@@ -38,7 +38,7 @@ const Home: NextPage = () => {
   const screen = useBreakpoint();
 
   const onFilterChange = (value: string) => {
-    if (value !== "") {
+    if (value !== EMPTY_STRING) {
       dispatch(setLoading(true));
       const filteredAreas = areas.filter(
         (area) => area.name.toLowerCase().indexOf(value.toLowerCase()) !== -1

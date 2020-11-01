@@ -5,6 +5,7 @@ import { Spring } from "react-spring/renderprops.cjs";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 
 import styles from "../styles/Header.module.css";
+import { EMPTY_STRING } from "../redux/types";
 
 export interface HeaderProps {
   title: string;
@@ -26,9 +27,13 @@ const Header: FC<HeaderProps> = ({
   onAddClick,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
-  const onFocusOut = () => {
-    setOpen(false);
-    filter("");
+
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const filterValue = e.target.value;
+    filter(filterValue);
+    if (filterValue === EMPTY_STRING) {
+      setOpen(false);
+    }
   };
 
   const SearchIcon = (
@@ -49,9 +54,7 @@ const Header: FC<HeaderProps> = ({
           autoFocus
           className={styles.extras_margin}
           loading={loading}
-          onChange={(e) => filter(e.target.value)}
-          onSearch={(value) => filter(value)}
-          onBlur={onFocusOut}
+          onChange={onSearchChange}
           allowClear
           style={props}
           size={isMobile ? "small" : "middle"}

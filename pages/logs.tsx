@@ -8,7 +8,7 @@ import LogItemList from "../components/log/LogItemList";
 import { getLogsSl } from "../redux/selectors";
 import { wrapper } from "../redux/store";
 import { getLogsThunk } from "../redux/thunk";
-import { House, Log } from "../redux/types";
+import { EMPTY_STRING, House, Log } from "../redux/types";
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store, query }) => {
@@ -40,7 +40,7 @@ const Logs: NextPage<LogsProps> = ({ areaName, house }) => {
   }, [logs]);
 
   const onFilterChange = (value: string) => {
-    if (value !== "") {
+    if (value !== EMPTY_STRING) {
       const logsFiltered = logs.filter(
         (log) => log.paid_for.toLowerCase().indexOf(value.toLowerCase()) !== -1
       );
