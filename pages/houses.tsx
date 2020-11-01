@@ -75,7 +75,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
   }, [houses]);
 
   const onAddClick = () => {
-    setCurHouse(EMPTY_HOUSE);
+    setCurHouse({ ...EMPTY_HOUSE });
     setIsFormOpen(true);
     setType("Add");
   };

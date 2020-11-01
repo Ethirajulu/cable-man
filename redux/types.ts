@@ -14,7 +14,7 @@ export const PAID_ON_FORMAT = "Do MMMM yyyy";
 
 export const EMPTY_STRING = "";
 
-export const COMMON_AMOUNT = 200;
+export const COMMON_AMOUNT = 220;
 
 export interface House {
   id?: string;
@@ -22,7 +22,7 @@ export interface House {
   name: string;
   phone_no?: number;
   default_amt: number;
-  box_no: string;
+  box_no?: string;
   last_paid?: string;
 }
 

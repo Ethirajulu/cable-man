@@ -57,7 +57,7 @@ const Home: NextPage = () => {
   }, [areas]);
 
   const onAddClick = () => {
-    setCurArea(EMPTY_AREA);
+    setCurArea({ ...EMPTY_AREA });
     setIsFormOpen(true);
     setType("Add");
   };

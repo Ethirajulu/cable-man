@@ -22,7 +22,7 @@ const HouseForm: FC<HouseFormProps> = ({ house, areaId, type, isMobile }) => {
     form.setFieldsValue(house);
   }, [house]);
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: any) => {
     const newHouse = {
       area_id: areaId,
       name: values.name,
@@ -77,11 +77,7 @@ const HouseForm: FC<HouseFormProps> = ({ house, areaId, type, isMobile }) => {
       >
         <InputNumber min={0} />
       </Form.Item>
-      <Form.Item
-        label="Box No"
-        name="box_no"
-        rules={[{ required: true, message: "Box number required" }]}
-      >
+      <Form.Item label="Box No" name="box_no">
         <Input />
       </Form.Item>
       <Form.Item {...buttonItemLayout}>
