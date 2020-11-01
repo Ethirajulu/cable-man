@@ -21,7 +21,6 @@
 
 .item {
   background-color: #f9fcff;
-  /* background-color: aliceblue; */
   border-radius: 2px;
   padding-left: 10px;
 }
@@ -48,6 +47,15 @@
 
 .paid_amt {
   color: green;
+}
+
+.filter_btn {
+  color: white;
+  font-family: "Open Sans", sans-serif;
+}
+
+.filter_menu {
+  font-family: "Open Sans", sans-serif;
 }
 
 /* .option {

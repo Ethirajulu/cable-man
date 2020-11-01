@@ -16,7 +16,7 @@ import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../redux/actions";
 import { deleteHouseThunk } from "../../redux/thunk";
-import { House, PAID_FOR_FORMAT } from "../../redux/types";
+import { EDIT_LABEL, House, PAID_FOR_FORMAT } from "../../redux/types";
 
 import styles from "../../styles/ListItem.module.css";
 
@@ -40,7 +40,7 @@ const HouseItemList: FC<HouseItemListProps> = ({
   const dispatch = useDispatch();
 
   const onEditClick = (house: House) => {
-    setType("Edit");
+    setType(EDIT_LABEL);
     setCurHouse(house);
     setIsOpen(true);
   };

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../redux/actions";
 import { getLoadingSl } from "../../redux/selectors";
 import { addHouseThunk, updateHouseThunk } from "../../redux/thunk";
-import { House } from "../../redux/types";
+import { EDIT_LABEL, House } from "../../redux/types";
 
 export interface HouseFormProps {
   house: House | null;
@@ -32,7 +32,7 @@ const HouseForm: FC<HouseFormProps> = ({ house, areaId, type, isMobile }) => {
     };
 
     dispatch(setLoading(true));
-    if (type === "Edit") {
+    if (type === EDIT_LABEL) {
       dispatch(updateHouseThunk({ id: house.id, ...newHouse }));
     } else {
       dispatch(addHouseThunk(newHouse));

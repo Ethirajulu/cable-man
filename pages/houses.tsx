@@ -4,7 +4,13 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { wrapper } from "../redux/store";
 import { getHousesThunk } from "../redux/thunk";
-import { COMMON_AMOUNT, EMPTY_STRING, House } from "../redux/types";
+import {
+  ADD_LABEL,
+  ALL,
+  COMMON_AMOUNT,
+  EMPTY_STRING,
+  House,
+} from "../redux/types";
 import { useSelector, useDispatch } from "react-redux";
 import { getHousesSl, getLoadingSl } from "../redux/selectors";
 import { setLoading } from "../redux/actions";
@@ -15,6 +21,7 @@ import FormSheet from "../components/FormSheet";
 import HouseItemList from "../components/house/HouseItemList";
 import HouseForm from "../components/house/HouseForm";
 import PayForm from "../components/house/PayForm";
+import HouseFooter from "../components/house/HouseFooter";
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store, query }) => {
@@ -49,13 +56,16 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
   const loading: boolean = useSelector(getLoadingSl);
   const dispatch = useDispatch();
   const [housesFiltered, setHousesFiltered] = useState<House[]>(houses);
+  const [searchFilter, setSearchFilter] = useState<string>(EMPTY_STRING);
+  const [statusFilter, setStatusFilter] = useState<string>(ALL);
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
   const [isPayFormOpen, setPayFormStatus] = useState<boolean>(false);
   const [curHouse, setCurHouse] = useState<House>(EMPTY_HOUSE);
-  const [type, setType] = useState<string>("Add");
+  const [type, setType] = useState<string>(ADD_LABEL);
   const screen = useBreakpoint();
 
-  const onFilterChange = (value: string) => {
+  const onSearchFilterChange = (value: string) => {
+    setSearchFilter(value);
     if (value !== EMPTY_STRING) {
       dispatch(setLoading(true));
       const filteredHouses = houses.filter(
@@ -68,6 +78,8 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
     }
   };
 
+  const onStatusFilterChange = (value) => {};
+
   useEffect(() => {
     reset();
     setHousesFiltered(houses);
@@ -77,7 +89,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
   const onAddClick = () => {
     setCurHouse({ ...EMPTY_HOUSE });
     setIsFormOpen(true);
-    setType("Add");
+    setType(ADD_LABEL);
   };
 
   const reset = () => {
@@ -100,7 +112,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
             title={areaName}
             back
             showAdd
-            filter={onFilterChange}
+            filter={onSearchFilterChange}
             loading={loading}
             isMobile={screen.xs}
             onAddClick={onAddClick}
@@ -117,6 +129,9 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
               setCurHouse={setCurHouse}
             />
           </Spin>
+        </div>
+        <div className="footer">
+          <HouseFooter houses={houses} setHousesFiltered={setHousesFiltered} />
         </div>
         <FormSheet
           title={`${type} House`}

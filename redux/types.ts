@@ -13,8 +13,14 @@ export const PAID_FOR_FORMAT = "MMMM yyyy";
 export const PAID_ON_FORMAT = "Do MMMM yyyy";
 
 export const EMPTY_STRING = "";
-
 export const COMMON_AMOUNT = 220;
+
+export const PAID = "PAID";
+export const NOT_PAID = "NOT_PAID";
+export const ALL = "ALL";
+
+export const ADD_LABEL = "Add";
+export const EDIT_LABEL = "Edit";
 
 export interface House {
   id?: string;

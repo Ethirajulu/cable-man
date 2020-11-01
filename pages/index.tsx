@@ -8,7 +8,7 @@ import AreaItemList from "../components/area/AreaItemList";
 import Header from "../components/Header";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { useEffect, useState } from "react";
-import { Area, EMPTY_STRING } from "../redux/types";
+import { ADD_LABEL, Area, EMPTY_STRING } from "../redux/types";
 import FormSheet from "../components/FormSheet";
 import AreaForm from "../components/area/AreaForm";
 import { Spin } from "antd";
@@ -33,7 +33,7 @@ const Home: NextPage = () => {
   const dispatch = useDispatch();
   const [areasFiltered, setAreasFiltered] = useState<Area[]>(areas);
   const [curArea, setCurArea] = useState<Area>(EMPTY_AREA);
-  const [type, setType] = useState<string>("Add");
+  const [type, setType] = useState<string>(ADD_LABEL);
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
   const screen = useBreakpoint();
 
@@ -59,7 +59,7 @@ const Home: NextPage = () => {
   const onAddClick = () => {
     setCurArea({ ...EMPTY_AREA });
     setIsFormOpen(true);
-    setType("Add");
+    setType(ADD_LABEL);
   };
 
   const reset = () => {

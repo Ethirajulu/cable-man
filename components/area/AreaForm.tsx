@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "../../redux/actions";
 import { getLoadingSl } from "../../redux/selectors";
 import { addAreaThunk, updateAreaThunk } from "../../redux/thunk";
-import { Area } from "../../redux/types";
+import { Area, EDIT_LABEL } from "../../redux/types";
 
 export interface AreaFormProps {
   area: Area | null;
@@ -25,7 +25,7 @@ const AreaForm: FC<AreaFormProps> = ({ area, type, isMobile }) => {
   const onSubmit = (values) => {
     const areaName = values.name;
     dispatch(setLoading(true));
-    if (type === "Edit") {
+    if (type === EDIT_LABEL) {
       dispatch(updateAreaThunk(area.id, areaName));
     } else {
       dispatch(addAreaThunk(areaName));

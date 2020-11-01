@@ -11,7 +11,7 @@ import Item from "antd/lib/list/Item";
 import confirm from "antd/lib/modal/confirm";
 import { setLoading } from "../../redux/actions";
 import { deleteAreaThunk } from "../../redux/thunk";
-import { Area } from "../../redux/types";
+import { Area, EDIT_LABEL } from "../../redux/types";
 
 import styles from "../../styles/ListItem.module.css";
 
@@ -30,7 +30,7 @@ export const AreaItemList: FC<AreaItemListProps> = ({
 }) => {
   const dispatch = useDispatch();
   const onEditClick = (area: Area) => {
-    setType("Edit");
+    setType(EDIT_LABEL);
     setCurArea(area);
     setIsOpen(true);
   };
