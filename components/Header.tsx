@@ -36,11 +36,18 @@ const Header: FC<HeaderProps> = ({
     }
   };
 
+  const onSearchBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const filterValue = e.target.value;
+    if (filterValue === EMPTY_STRING) {
+      setOpen(false);
+    }
+  };
+
   const SearchIcon = (
     <SearchOutlined
       key="search_icon"
       onClick={() => setOpen(true)}
-      className={styles.extras_margin}
+      className={`${styles.extras_margin} ${styles.search_icon}`}
     />
   );
   const SearchInput = (
@@ -55,6 +62,7 @@ const Header: FC<HeaderProps> = ({
           className={styles.extras_margin}
           loading={loading}
           onChange={onSearchChange}
+          onBlur={onSearchBlur}
           allowClear
           style={props}
           size={isMobile ? "small" : "middle"}
@@ -78,7 +86,7 @@ const Header: FC<HeaderProps> = ({
       key="add"
       shape="circle"
       icon={<PlusOutlined />}
-      size={isMobile ? "small" : "middle"}
+      size={isMobile ? "middle" : "large"}
       className={styles.extras_margin}
       style={{ display: !shouldShowAdd() && "none" }}
       onClick={onAddClick}
