@@ -152,9 +152,11 @@ export const deleteHouseThunk = (id: string): AppThunk => async (dispatch) => {
   }
 };
 
-export const updatePaymentThunk = (log: Log, house: House): AppThunk => async (
-  dispatch
-) => {
+export const updatePaymentThunk = (
+  log: Log,
+  house: House,
+  reset: () => void
+): AppThunk => async (dispatch) => {
   try {
     await db.collection("logs").add(log);
     const currentMonth = moment().format(PAID_FOR_FORMAT).toString();
@@ -166,6 +168,7 @@ export const updatePaymentThunk = (log: Log, house: House): AppThunk => async (
       await db.collection("houses").doc(log.house_id).set(newHouse);
       dispatch(updateHouse(newHouse));
     } else {
+      reset();
       message.success(`Marked paid for ${log.paid_for}`);
       dispatch(setLoading(false));
     }

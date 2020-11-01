@@ -152,7 +152,12 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
           isOpen={isPayFormOpen}
           onClose={reset}
         >
-          <PayForm areaName={areaName} house={curHouse} isMobile={screen.xs} />
+          <PayForm
+            areaName={areaName}
+            house={curHouse}
+            isMobile={screen.xs}
+            reset={reset}
+          />
         </FormSheet>
       </div>
     </>

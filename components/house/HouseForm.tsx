@@ -55,6 +55,7 @@ const HouseForm: FC<HouseFormProps> = ({ house, areaId, type, isMobile }) => {
   return (
     <Form
       {...formItemLayout}
+      autoComplete="off"
       form={form}
       layout={isMobile ? "horizontal" : "vertical"}
       name="house_form"

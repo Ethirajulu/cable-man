@@ -48,6 +48,7 @@ const AreaForm: FC<AreaFormProps> = ({ area, type, isMobile }) => {
   return (
     <Form
       {...formItemLayout}
+      autoComplete="off"
       form={form}
       layout={isMobile ? "horizontal" : "vertical"}
       name="area_form"

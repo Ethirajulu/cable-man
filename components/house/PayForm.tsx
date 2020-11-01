@@ -11,9 +11,10 @@ export interface PayFormProps {
   house: House;
   areaName: string;
   isMobile: boolean;
+  reset: () => void;
 }
 
-const PayForm: FC<PayFormProps> = ({ house, areaName, isMobile }) => {
+const PayForm: FC<PayFormProps> = ({ house, areaName, isMobile, reset }) => {
   const [form] = Form.useForm();
   const loading = useSelector(getLoadingSl);
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const PayForm: FC<PayFormProps> = ({ house, areaName, isMobile }) => {
       paid_on: moment().format(PAID_ON_FORMAT).toString(),
     };
     dispatch(setLoading(true));
-    dispatch(updatePaymentThunk(log, house));
+    dispatch(updatePaymentThunk(log, house, reset));
   };
 
   const formItemLayout = isMobile
@@ -52,6 +53,7 @@ const PayForm: FC<PayFormProps> = ({ house, areaName, isMobile }) => {
   return (
     <Form
       form={form}
+      autoComplete="off"
       {...formItemLayout}
       layout={isMobile ? "horizontal" : "vertical"}
       name="pay_form"
