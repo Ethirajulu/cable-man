@@ -2,7 +2,6 @@ import { FileTextOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Space } from "antd";
 import Link from "next/link";
 import React, { FC } from "react";
-import { animated, useSpring } from "react-spring";
 
 import styles from "../../styles/AreaFooter.module.css";
 
@@ -11,11 +10,6 @@ export interface AreaFooterProps {
 }
 
 const AreaFooter: FC<AreaFooterProps> = ({ totalAmount }) => {
-  const spring = useSpring({
-    number: totalAmount,
-    from: { number: 0 },
-    config: { duration: 1000 },
-  });
   return (
     <Row>
       <Col span={12} className={styles.report_col}>
@@ -41,9 +35,9 @@ const AreaFooter: FC<AreaFooterProps> = ({ totalAmount }) => {
               height="10px"
               width="10px"
             />
-            <animated.span className={styles.color_white}>
-              {spring.number.interpolate((number) => Math.floor(number))}
-            </animated.span>
+            <span className={styles.color_white}>
+              {totalAmount}
+            </span>
           </Space>
         </Space>
       </Col>

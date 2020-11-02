@@ -1,11 +1,11 @@
 import { Button, PageHeader } from "antd";
 import React, { FC, useState } from "react";
 import Search from "antd/lib/input/Search";
-import { Spring } from "react-spring/renderprops.cjs";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 
 import styles from "../styles/Header.module.css";
 import { EMPTY_STRING } from "../redux/types";
+import { motion } from "framer-motion";
 
 export interface HeaderProps {
   title: string;
@@ -51,24 +51,21 @@ const Header: FC<HeaderProps> = ({
     />
   );
   const SearchInput = (
-    <Spring
-      key="search"
-      from={{ width: "5vw" }}
-      to={{ width: isMobile ? "30vw" : "40vw" }}
+    <motion.div
+      initial={{ width: "0vw" }}
+      animate={{ width: isMobile ? "30vw" : "40vw" }}
+      transition={{ ease: "easeIn" }}
     >
-      {(props) => (
-        <Search
-          autoFocus
-          className={styles.extras_margin}
-          loading={loading}
-          onChange={onSearchChange}
-          onBlur={onSearchBlur}
-          allowClear
-          style={props}
-          size={isMobile ? "small" : "middle"}
-        />
-      )}
-    </Spring>
+      <Search
+        autoFocus
+        className={styles.extras_margin}
+        loading={loading}
+        onChange={onSearchChange}
+        onBlur={onSearchBlur}
+        allowClear
+        size={isMobile ? "middle" : "large"}
+      />
+    </motion.div>
   );
 
   const shouldShowAdd = () => {
