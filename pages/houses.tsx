@@ -23,6 +23,7 @@ import HouseForm from "../components/house/HouseForm";
 import PayForm from "../components/house/PayForm";
 import HouseFooter from "../components/house/HouseFooter";
 import { getHousesByStatus, sortHouses } from "../utils";
+import { loadingIcon } from "../components/UtilComps";
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store, query }) => {
@@ -108,8 +109,6 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
     setPayFormStatus(false);
   };
 
-  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
   return (
     <>
       <Head>
@@ -128,7 +127,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
         />
       </div>
       <div className="content">
-        <Spin spinning={loading} indicator={antIcon}>
+        <Spin spinning={loading} indicator={loadingIcon}>
           <HouseItemList
             areaName={areaName}
             houses={housesFiltered}

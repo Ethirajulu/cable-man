@@ -11,9 +11,10 @@ export interface HeaderProps {
   title: string;
   back: boolean;
   showAdd: boolean;
-  loading: boolean;
+  loading?: boolean;
   isMobile: boolean;
-  filter: (value: string) => void;
+  isReports?: boolean;
+  filter?: (value: string) => void;
   onAddClick?: () => void;
 }
 
@@ -23,6 +24,7 @@ const Header: FC<HeaderProps> = ({
   showAdd,
   loading,
   isMobile,
+  isReports = false,
   filter,
   onAddClick,
 }) => {
@@ -48,6 +50,7 @@ const Header: FC<HeaderProps> = ({
       key="search_icon"
       onClick={() => setOpen(true)}
       className={`${styles.extras_margin} ${styles.search_icon}`}
+      style={{ display: isReports && "none" }}
     />
   );
   const SearchInput = (
@@ -70,7 +73,7 @@ const Header: FC<HeaderProps> = ({
 
   const shouldShowAdd = () => {
     let show = false;
-    if (showAdd) {
+    if (!isReports && showAdd) {
       if (!open) {
         show = true;
       }

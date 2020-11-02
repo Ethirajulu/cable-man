@@ -16,6 +16,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { setLoading } from "../redux/actions";
 import AreaFooter from "../components/area/AreaFooter";
 import { getTodaysCollectionThunk } from "../utils";
+import { loadingIcon } from "../components/UtilComps";
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store }) => {
@@ -77,8 +78,6 @@ const Home: NextPage<HomeProps> = ({ totalAmount }) => {
     setIsFormOpen(false);
   };
 
-  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
   return (
     <>
       <Head>
@@ -98,7 +97,7 @@ const Home: NextPage<HomeProps> = ({ totalAmount }) => {
         />
       </div>
       <div className="content_area">
-        <Spin spinning={loading} indicator={antIcon}>
+        <Spin spinning={loading} indicator={loadingIcon}>
           <AreaItemList
             areas={areasFiltered}
             setType={setType}

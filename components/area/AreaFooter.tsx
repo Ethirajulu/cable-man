@@ -1,7 +1,8 @@
 import { FileTextOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Space } from "antd";
+import { animate } from "framer-motion";
 import Link from "next/link";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 import styles from "../../styles/AreaFooter.module.css";
 
@@ -10,6 +11,15 @@ export interface AreaFooterProps {
 }
 
 const AreaFooter: FC<AreaFooterProps> = ({ totalAmount }) => {
+  const [amount, setAmount] = useState<number>(0);
+  useEffect(() => {
+    animate(0, totalAmount, {
+      duration: 1,
+      onUpdate(value) {
+        setAmount(Math.floor(value));
+      },
+    });
+  }, []);
   return (
     <Row>
       <Col span={12} className={styles.report_col}>
@@ -35,9 +45,7 @@ const AreaFooter: FC<AreaFooterProps> = ({ totalAmount }) => {
               height="10px"
               width="10px"
             />
-            <span className={styles.color_white}>
-              {totalAmount}
-            </span>
+            <span className={styles.color_white}>{amount}</span>
           </Space>
         </Space>
       </Col>
