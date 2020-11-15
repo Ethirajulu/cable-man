@@ -1,0 +1,54 @@
+.house_grid {
+  display: grid;
+  grid-template-columns: 12vw 1fr 15vw 20vw;
+  grid-template-rows: 5vh 3vh 7vh;
+  grid-template-areas:
+    "avatar name name status" "avatar details details status"
+    ". . actions actions";
+  align-items: center;
+  background-color: #f9fcff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.avatar_grid {
+  grid-area: avatar;
+  display: flex;
+  justify-content: center;
+}
+
+.name_grid {
+  grid-area: name;
+  padding-left: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.status_grid {
+  grid-area: status;
+  display: flex;
+  justify-content: center;
+}
+
+.details_grid {
+  grid-area: details;
+  padding-left: 10px;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 14px;
+  line-height: 1.5715;
+}
+
+.actions_grid {
+  grid-area: actions;
+}
+
+.edit_button {
+  color: #b59b1d;
+}
+
+.delete_button {
+  color: crimson;
+}
