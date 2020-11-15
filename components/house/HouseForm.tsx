@@ -75,15 +75,15 @@ const HouseForm: FC<HouseFormProps> = ({ house, areaId, type, isMobile }) => {
       <Form.Item label="Phone Number" name="phone_no">
         <InputNumber min={0} style={{ width: "50vw" }} />
       </Form.Item>
+      <Form.Item label="Box No" name="box_no">
+        <Input />
+      </Form.Item>
       <Form.Item
         label="Amount"
         name="default_amt"
         rules={[{ required: true, message: "Amount required" }]}
       >
         <InputNumber min={0} />
-      </Form.Item>
-      <Form.Item label="Box No" name="box_no">
-        <Input />
       </Form.Item>
       <Form.Item {...buttonItemLayout}>
         <Button type="primary" htmlType="submit" loading={loading}>
