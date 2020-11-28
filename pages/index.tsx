@@ -12,7 +12,6 @@ import { ADD_LABEL, Area, EMPTY_STRING } from "../redux/types";
 import FormSheet from "../components/FormSheet";
 import AreaForm from "../components/area/AreaForm";
 import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import { setLoading } from "../redux/actions";
 import AreaFooter from "../components/area/AreaFooter";
 import { getTodaysCollectionThunk } from "../utils";

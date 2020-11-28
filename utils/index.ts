@@ -51,7 +51,7 @@ export const getTodaysCollectionThunk = async () => {
     });
   } catch (err) {
     totalAmount = "--";
-    message.error("getting total amount failed");
+    console.error("getting total amount failed");
   } finally {
     return totalAmount;
   }
