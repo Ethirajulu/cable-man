@@ -1,7 +1,6 @@
 import {
   CREATED_FORMAT,
   House,
-  Log,
   LOGS_COLLECTION,
   NOT_PAID,
   PAID,
@@ -35,7 +34,7 @@ export const checkIsPaid = (lastPaidDate: string): boolean => {
 };
 
 export const getTodaysCollectionThunk = async () => {
-  let totalAmount: number | string = 0;
+  let totalAmount: number = 0;
   try {
     const todaysDate = moment().format(PAID_ON_FORMAT).toString();
     const docs = (
@@ -50,8 +49,28 @@ export const getTodaysCollectionThunk = async () => {
       totalAmount = totalAmount + log.paid_amt;
     });
   } catch (err) {
-    totalAmount = "--";
-    console.error("getting total amount failed");
+    totalAmount = 0;
+    message.error("Getting total amount failed");
+  } finally {
+    return totalAmount;
+  }
+};
+
+export const getMonthsCollectionThunk = async () => {
+  let totalAmount: number = 0;
+  try {
+    const month = moment().format(PAID_FOR_FORMAT).toString();
+    const docs = (
+      await db.collection(LOGS_COLLECTION).where("paid_for", "==", month).get()
+    ).docs;
+    let log = null;
+    docs.forEach((doc) => {
+      log = doc.data();
+      totalAmount = totalAmount + log.paid_amt;
+    });
+  } catch (err) {
+    totalAmount = 0;
+    message.error("Getting total amount failed");
   } finally {
     return totalAmount;
   }

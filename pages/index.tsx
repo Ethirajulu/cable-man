@@ -14,17 +14,13 @@ import AreaForm from "../components/area/AreaForm";
 import { Spin } from "antd";
 import { setLoading } from "../redux/actions";
 import AreaFooter from "../components/area/AreaFooter";
-import { getTodaysCollectionThunk } from "../utils";
 import { loadingIcon } from "../components/UtilComps";
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store }) => {
     await store.dispatch(getAreasThunk());
-    const totalAmount = await getTodaysCollectionThunk();
     return {
-      props: {
-        totalAmount,
-      },
+      props: {},
     };
   }
 );
@@ -33,11 +29,9 @@ const EMPTY_AREA: Area = {
   name: null,
 };
 
-export interface HomeProps {
-  totalAmount: number;
-}
+export interface HomeProps {}
 
-const Home: NextPage<HomeProps> = ({ totalAmount }) => {
+const Home: NextPage<HomeProps> = ({}) => {
   const areas: Area[] = useSelector(getAreasSl);
   const loading: boolean = useSelector(getLoadingSl);
   const dispatch = useDispatch();
@@ -106,7 +100,7 @@ const Home: NextPage<HomeProps> = ({ totalAmount }) => {
         </Spin>
       </div>
       <div className="footer_area">
-        <AreaFooter totalAmount={totalAmount} />
+        <AreaFooter />
       </div>
       <FormSheet
         title={`${type} Area`}
