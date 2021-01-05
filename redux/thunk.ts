@@ -1,6 +1,7 @@
 import { message } from "antd";
 import moment from "moment";
 import { db } from "../config/fire-config";
+import { sortHouses } from "../utils";
 import {
   addArea,
   addHouse,
@@ -305,16 +306,22 @@ export const getLogsThunk = (houseId: string): AppThunk => async (dispatch) => {
 //           .where("area_id", "==", area.id)
 //           .get()
 //       ).docs;
+//       let houses: House[] = [];
+//       let house: House;
 //       let houseIds: string[] = [];
 //       let data = null;
 //       docs.forEach((doc) => {
 //         data = doc.data();
-//         houseIds.push(doc.id);
+//         house = { id: doc.id, ...data };
+//         houses.push(house);
 //       });
+//       const sortedHouses = sortHouses(houses);
+//       sortedHouses.forEach((house) => houseIds.push(house.id));
 //       await db
 //         .collection(SORTED_HOUSES_COLLECTION)
 //         .add({ area_id: area.id, house_ids: houseIds });
 //     });
+//     message.success("Added sorted house");
 //   } catch (err) {
 //     message.error("Error occurred when coping");
 //   }

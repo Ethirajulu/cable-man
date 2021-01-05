@@ -21,13 +21,12 @@ import {
 import { setLoading } from "../redux/actions";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import FormSheet from "../components/FormSheet";
 import HouseItemList from "../components/house/HouseItemList";
 import HouseForm from "../components/house/HouseForm";
 import PayForm from "../components/house/PayForm";
 import HouseFooter from "../components/house/HouseFooter";
-import { getHousesByStatus, sortHouses } from "../utils";
+import { getHousesByStatus } from "../utils";
 import { loadingIcon } from "../components/UtilComps";
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
@@ -93,7 +92,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
         (area) =>
           area.name.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1
       );
-      setHousesFiltered(sortHouses(filteredHouses));
+      setHousesFiltered(filteredHouses);
       setFiltered(true);
     } else {
       if (statusFilter !== ALL) {
@@ -101,14 +100,14 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
       } else {
         setFiltered(false);
       }
-      setHousesFiltered(sortHouses(filteredHousesByStatus));
+      setHousesFiltered(filteredHousesByStatus);
     }
     dispatch(setLoading(false));
   };
 
   useEffect(() => {
     reset();
-    setHousesFiltered(sortHouses(houses));
+    setHousesFiltered(houses);
     dispatch(setLoading(false));
   }, [houses]);
 
