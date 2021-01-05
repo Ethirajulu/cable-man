@@ -8,6 +8,8 @@
   align-items: center;
   background-color: #f9fcff;
   border-bottom: 1px solid #f0f0f0;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .avatar_grid {

@@ -10,6 +10,7 @@ import {
   setHouses,
   setLoading,
   setLogs,
+  setSortedHouses,
   updateArea,
   updateHouse,
 } from "./actions";
@@ -20,9 +21,11 @@ import {
   EMPTY_STRING,
   House,
   HOUSES_COLLECTION,
+  SORTED_HOUSES_COLLECTION,
   Log,
   LOGS_COLLECTION,
   PAID_FOR_FORMAT,
+  Sorted,
 } from "./types";
 
 export const getAreasThunk = (): AppThunk => async (dispatch) => {
@@ -42,13 +45,16 @@ export const getAreasThunk = (): AppThunk => async (dispatch) => {
 
 export const addAreaThunk = (name: string): AppThunk => async (dispatch) => {
   try {
-    const docs = await db.collection(AREAS_COLLECTION).add({ name });
+    const doc = await db.collection(AREAS_COLLECTION).add({ name });
     dispatch(
       addArea({
-        id: docs.id,
+        id: doc.id,
         name,
       })
     );
+    await db
+      .collection(SORTED_HOUSES_COLLECTION)
+      .add({ area_id: doc.id, house_ids: [] });
     message.success("Area successfully added");
   } catch (err) {
     message.error("Adding area failed");
@@ -120,16 +126,29 @@ export const getHousesThunk = (areaId: string): AppThunk => async (
   }
 };
 
-export const addHouseThunk = (house: House): AppThunk => async (dispatch) => {
+export const addHouseThunk = (
+  house: House,
+  sorted: Sorted,
+  indexToAdd: number
+): AppThunk => async (dispatch) => {
   try {
     const { id, ...rest } = house;
-    const docs = await db.collection(HOUSES_COLLECTION).add(rest);
+    const doc = await db.collection(HOUSES_COLLECTION).add(rest);
     dispatch(
       addHouse({
-        id: docs.id,
+        id: doc.id,
         ...rest,
       })
     );
+    const newSortedHouses = [...sorted.house_ids];
+    newSortedHouses.splice(indexToAdd, 0, doc.id);
+    let newSorted: Sorted = {
+      area_id: sorted.area_id,
+      house_ids: newSortedHouses,
+    };
+    await db.collection(SORTED_HOUSES_COLLECTION).doc(sorted.id).set(newSorted);
+    newSorted.id = sorted.id;
+    dispatch(setSortedHouses(newSorted));
     message.success("House successfully added");
   } catch (err) {
     message.error("Adding house failed");
@@ -151,14 +170,52 @@ export const updateHouseThunk = (house: House): AppThunk => async (
   }
 };
 
-export const deleteHouseThunk = (id: string): AppThunk => async (dispatch) => {
+export const deleteHouseThunk = (
+  id: string,
+  sorted: Sorted
+): AppThunk => async (dispatch) => {
   try {
     await db.collection(HOUSES_COLLECTION).doc(id).delete();
     dispatch(deleteHouse(id));
+    const newSortedHouses = sorted.house_ids.filter(
+      (houseId) => houseId !== id
+    );
+    let newSorted: Sorted = {
+      area_id: sorted.area_id,
+      house_ids: newSortedHouses,
+    };
+    await db.collection(SORTED_HOUSES_COLLECTION).doc(sorted.id).set(newSorted);
+    newSorted.id = sorted.id;
+    dispatch(setSortedHouses(newSorted));
     message.success("House deleted successfully");
   } catch (err) {
     message.error("Deleting house failed");
     dispatch(setLoading(false));
+  }
+};
+
+export const getSortedHousesThunk = (areaId: string): AppThunk => async (
+  dispatch
+) => {
+  try {
+    const docs = (
+      await db
+        .collection(SORTED_HOUSES_COLLECTION)
+        .where("area_id", "==", areaId)
+        .get()
+    ).docs;
+    if (docs?.length) {
+      const doc = docs[0];
+      const data = doc.data();
+      let sorted: Sorted = {
+        id: doc.id,
+        area_id: data.area_id,
+        house_ids: data.house_ids,
+      };
+      dispatch(setSortedHouses(sorted));
+    }
+  } catch (err) {
+    console.error("Retrieving sorted houses failed");
   }
 };
 
@@ -231,3 +288,40 @@ export const getLogsThunk = (houseId: string): AppThunk => async (dispatch) => {
     dispatch(setLoading(false));
   }
 };
+
+// export const addAllHouses = async () => {
+//   try {
+//     const docs = (await db.collection(AREAS_COLLECTION).get()).docs;
+//     let areas: Area[] = [];
+//     let area: Area;
+//     docs.forEach((doc) => {
+//       area = { id: doc.id, name: doc.data().name };
+//       areas.push(area);
+//     });
+//     await asyncForEach(areas, async (area: Area) => {
+//       const docs = (
+//         await db
+//           .collection(HOUSES_COLLECTION)
+//           .where("area_id", "==", area.id)
+//           .get()
+//       ).docs;
+//       let houseIds: string[] = [];
+//       let data = null;
+//       docs.forEach((doc) => {
+//         data = doc.data();
+//         houseIds.push(doc.id);
+//       });
+//       await db
+//         .collection(SORTED_HOUSES_COLLECTION)
+//         .add({ area_id: area.id, house_ids: houseIds });
+//     });
+//   } catch (err) {
+//     message.error("Error occurred when coping");
+//   }
+// };
+
+// const asyncForEach = async (array, callback) => {
+//   for (let index = 0; index < array.length; index++) {
+//     await callback(array[index], index, array);
+//   }
+// };

@@ -1,42 +1,34 @@
-import {
-  CheckOutlined,
-  DeleteOutlined,
-  DollarCircleOutlined,
-  EditOutlined,
-  ExclamationCircleOutlined,
-  FieldNumberOutlined,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
-import { Avatar, Button, Col, Divider, List, Row, Space } from "antd";
-import Item from "antd/lib/list/Item";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { List } from "antd";
 import confirm from "antd/lib/modal/confirm";
-import Link from "next/link";
-import React, { FC } from "react";
+import React, { FC, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../redux/actions";
 import { deleteHouseThunk, markNotPaidThunk } from "../../redux/thunk";
-import { EDIT_LABEL, House } from "../../redux/types";
+import { EDIT_LABEL, House, Sorted } from "../../redux/types";
 
-// import styles from "../../styles/ListItem.module.css";
-import styles from "../../styles/HouseItem.module.css";
 import { checkIsPaid } from "../../utils";
-
+import HouseItem from "./HouseItem";
 export interface HouseItemListProps {
+  sorted: Sorted;
   houses: House[];
   areaName: string;
   setType: (type: string) => void;
   setIsOpen: (isOpen: boolean) => void;
   setPayFormStatus: (isOpen: boolean) => void;
   setCurHouse: (house: House) => void;
+  onAddClick?: (index: number) => void;
 }
 
 const HouseItemList: FC<HouseItemListProps> = ({
+  sorted,
   houses,
   areaName,
   setType,
   setIsOpen,
   setPayFormStatus,
   setCurHouse,
+  onAddClick,
 }) => {
   const dispatch = useDispatch();
 
@@ -56,7 +48,7 @@ const HouseItemList: FC<HouseItemListProps> = ({
       centered: true,
       onOk: () => {
         dispatch(setLoading(true));
-        dispatch(deleteHouseThunk(house.id));
+        dispatch(deleteHouseThunk(house.id, sorted));
       },
     });
   };
@@ -81,80 +73,28 @@ const HouseItemList: FC<HouseItemListProps> = ({
     });
   };
 
-  const IconText = ({ icon, text }) => (
-    <Space>
-      {React.createElement(icon)}
-      {text}
-    </Space>
-  );
-
   return (
     <List
       itemLayout="vertical"
-      dataSource={houses}
-      renderItem={(house) => (
-        <div className={styles.house_grid}>
-          <div className={styles.avatar_grid}>
-            <Avatar src="/images/house.svg" />
-          </div>
-          <h4 className={styles.name_grid}>{house.name}</h4>
-          <div className={styles.status_grid}>
-            {house.last_paid && checkIsPaid(house.last_paid) ? (
-              <Button
-                type="link"
-                onClick={() => onPaidClick(house)}
-                style={{ color: "green" }}
-              >
-                <CheckOutlined /> Paid
-              </Button>
-            ) : (
-              <Button type="link" danger onClick={() => onNotPaidClick(house)}>
-                Not Paid
-              </Button>
-            )}
-          </div>
-          <div className={styles.details_grid}>
-            <Space split={<Divider type="vertical" />}>
-              <IconText
-                icon={DollarCircleOutlined}
-                text={house.default_amt}
-                key="box_no"
-              />
-              <IconText
-                icon={FieldNumberOutlined}
-                text={house.box_no}
-                key="amount"
-              />
-            </Space>
-          </div>
-          <div className={styles.actions_grid}>
-            <Space size="small" split={<Divider type="vertical" />}>
-              <EditOutlined
-                onClick={() => onEditClick(house)}
-                className={styles.edit_button}
-              />
-              <DeleteOutlined
-                onClick={() => onDeleteClick(house)}
-                className={styles.delete_button}
-              />
-              <Link
-                href={{
-                  pathname: `/logs`,
-                  query: {
-                    ...house,
-                    areaName,
-                  },
-                }}
-                passHref
-              >
-                <a>
-                  <Button icon={<InfoCircleOutlined />} />
-                </a>
-              </Link>
-            </Space>
-          </div>
-        </div>
-      )}
+      dataSource={sorted ? sorted.house_ids : []}
+      renderItem={(houseId, index) => {
+        const house = houses.find((house) => house.id === houseId);
+        if (house) {
+          return (
+            <HouseItem
+              index={index}
+              areaName={areaName}
+              house={house}
+              checkIsPaid={checkIsPaid}
+              onDeleteClick={onDeleteClick}
+              onEditClick={onEditClick}
+              onNotPaidClick={onNotPaidClick}
+              onPaidClick={onPaidClick}
+              onAddClick={onAddClick}
+            />
+          );
+        }
+      }}
     />
   );
 };

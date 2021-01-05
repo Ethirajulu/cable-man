@@ -3,16 +3,21 @@ import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { wrapper } from "../redux/store";
-import { getHousesThunk } from "../redux/thunk";
+import { getHousesThunk, getSortedHousesThunk } from "../redux/thunk";
 import {
   ADD_LABEL,
   ALL,
   COMMON_AMOUNT,
   EMPTY_STRING,
   House,
+  Sorted,
 } from "../redux/types";
 import { useSelector, useDispatch } from "react-redux";
-import { getHousesSl, getLoadingSl } from "../redux/selectors";
+import {
+  getHousesSl,
+  getLoadingSl,
+  getSortedHousesSl,
+} from "../redux/selectors";
 import { setLoading } from "../redux/actions";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { Spin } from "antd";
@@ -29,6 +34,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
   async ({ store, query }) => {
     if (typeof query.areaId === "string") {
       await store.dispatch(getHousesThunk(query.areaId));
+      await store.dispatch(getSortedHousesThunk(query.areaId));
     }
     return {
       props: {
@@ -55,6 +61,7 @@ const EMPTY_HOUSE: House = {
 
 const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
   const houses: House[] = useSelector(getHousesSl);
+  const sorted: Sorted = useSelector(getSortedHousesSl);
   const loading: boolean = useSelector(getLoadingSl);
   const dispatch = useDispatch();
   const [housesFiltered, setHousesFiltered] = useState<House[]>(houses);
@@ -64,6 +71,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
   const [isPayFormOpen, setPayFormStatus] = useState<boolean>(false);
   const [curHouse, setCurHouse] = useState<House>(EMPTY_HOUSE);
   const [type, setType] = useState<string>(ADD_LABEL);
+  const [indexToAdd, setIndexToAdd] = useState<number>(0);
   const screen = useBreakpoint();
 
   const onSearchFilterChange = (value: string) => {
@@ -97,7 +105,8 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
     dispatch(setLoading(false));
   }, [houses]);
 
-  const onAddClick = () => {
+  const onAddClick = (index) => {
+    setIndexToAdd(index + 1);
     setCurHouse({ ...EMPTY_HOUSE });
     setIsFormOpen(true);
     setType(ADD_LABEL);
@@ -119,22 +128,23 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
         <Header
           title={areaName}
           back
-          showAdd
+          showAdd={false}
           filter={onSearchFilterChange}
           loading={loading}
           isMobile={screen.xs}
-          onAddClick={onAddClick}
         />
       </div>
       <div className="content">
         <Spin spinning={loading} indicator={loadingIcon}>
           <HouseItemList
             areaName={areaName}
+            sorted={sorted}
             houses={housesFiltered}
             setType={setType}
             setIsOpen={setIsFormOpen}
             setPayFormStatus={setPayFormStatus}
             setCurHouse={setCurHouse}
+            onAddClick={onAddClick}
           />
         </Spin>
       </div>
@@ -148,6 +158,8 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
         onClose={reset}
       >
         <HouseForm
+          sorted={sorted}
+          indexToAdd={indexToAdd}
           areaId={areaId}
           house={curHouse}
           isMobile={screen.xs}
