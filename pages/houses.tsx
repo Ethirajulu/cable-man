@@ -72,6 +72,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
   const [curHouse, setCurHouse] = useState<House>(EMPTY_HOUSE);
   const [type, setType] = useState<string>(ADD_LABEL);
   const [indexToAdd, setIndexToAdd] = useState<number>(0);
+  const [filtered, setFiltered] = useState<boolean>(false);
   const screen = useBreakpoint();
 
   const onSearchFilterChange = (value: string) => {
@@ -93,7 +94,13 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
           area.name.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1
       );
       setHousesFiltered(sortHouses(filteredHouses));
+      setFiltered(true);
     } else {
+      if (statusFilter !== ALL) {
+        setFiltered(true);
+      } else {
+        setFiltered(false);
+      }
       setHousesFiltered(sortHouses(filteredHousesByStatus));
     }
     dispatch(setLoading(false));
@@ -146,6 +153,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
             setPayFormStatus={setPayFormStatus}
             setCurHouse={setCurHouse}
             onAddClick={onAddClick}
+            filtered={filtered}
           />
         </Spin>
       </div>

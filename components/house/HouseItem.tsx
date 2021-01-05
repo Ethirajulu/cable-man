@@ -25,6 +25,7 @@ export interface HouseItemProps {
   onNotPaidClick: (house: House) => void;
   onPaidClick: (house: House) => void;
   onAddClick?: (index: number) => void;
+  filtered: boolean;
 }
 
 const HouseItem: FC<HouseItemProps> = ({
@@ -37,6 +38,7 @@ const HouseItem: FC<HouseItemProps> = ({
   onEditClick,
   onDeleteClick,
   onAddClick,
+  filtered,
 }) => {
   const IconText = ({ icon, text }) => (
     <Space>
@@ -110,13 +112,15 @@ const HouseItem: FC<HouseItemProps> = ({
           </Link>
         </Space>
       </div>
-      <Button
-        key="add"
-        type="text"
-        icon={<PlusOutlined />}
-        size="small"
-        onClick={() => onAddClick(index)}
-      />
+      {!filtered && (
+        <Button
+          key="add"
+          type="text"
+          icon={<PlusOutlined />}
+          size="small"
+          onClick={() => onAddClick(index)}
+        />
+      )}
     </div>
   );
 };

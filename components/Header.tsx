@@ -55,6 +55,7 @@ const Header: FC<HeaderProps> = ({
   );
   const SearchInput = (
     <motion.div
+      key="searchInput"
       initial={{ width: "0vw" }}
       animate={{ width: isMobile ? "30vw" : "40vw" }}
       transition={{ ease: "easeIn" }}

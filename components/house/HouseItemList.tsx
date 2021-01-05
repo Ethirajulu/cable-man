@@ -18,6 +18,7 @@ export interface HouseItemListProps {
   setPayFormStatus: (isOpen: boolean) => void;
   setCurHouse: (house: House) => void;
   onAddClick?: (index: number) => void;
+  filtered: boolean;
 }
 
 const HouseItemList: FC<HouseItemListProps> = ({
@@ -29,6 +30,7 @@ const HouseItemList: FC<HouseItemListProps> = ({
   setPayFormStatus,
   setCurHouse,
   onAddClick,
+  filtered,
 }) => {
   const dispatch = useDispatch();
 
@@ -91,6 +93,7 @@ const HouseItemList: FC<HouseItemListProps> = ({
               onNotPaidClick={onNotPaidClick}
               onPaidClick={onPaidClick}
               onAddClick={onAddClick}
+              filtered={filtered}
             />
           );
         }
