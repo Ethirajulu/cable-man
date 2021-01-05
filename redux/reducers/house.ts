@@ -7,17 +7,21 @@ import {
   Log,
   SET_HOUSES,
   SET_LOGS,
+  SET_SORTED_HOUSES,
+  Sorted,
   UPDATE_HOUSE,
 } from "../types";
 
 interface State {
   houses: House[];
+  sorted: Sorted;
   logs: Log[];
 }
 
 export const houseReducer = (
   state: State = {
     houses: [],
+    sorted: { id: "", area_id: "", house_ids: [] },
     logs: [],
   },
   action: HouseActionTypes & AnyAction
@@ -37,6 +41,8 @@ export const houseReducer = (
     case DELETE_HOUSE:
       updatedHouses = state.houses.filter((house) => house.id !== action.id);
       return { ...state, houses: updatedHouses };
+    case SET_SORTED_HOUSES:
+      return { ...state, sorted: action.sorted };
     case SET_LOGS:
       return { ...state, logs: action.logs };
     default:

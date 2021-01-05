@@ -6,6 +6,7 @@ export const SET_HOUSES = "SET/HOUSES";
 export const ADD_HOUSE = "ADD/HOUSE";
 export const UPDATE_HOUSE = "UPDATE/HOUSE";
 export const DELETE_HOUSE = "DELETE/HOUSE";
+export const SET_SORTED_HOUSES = "SET/SORTED_HOUSES";
 export const SET_LOGS = "SET/LOGS";
 export const SET_LOADING = "SET/LOADING";
 
@@ -26,6 +27,7 @@ export const EDIT_LABEL = "Edit";
 export const AREAS_COLLECTION = "areas";
 export const HOUSES_COLLECTION = "houses";
 export const LOGS_COLLECTION = "logs";
+export const SORTED_HOUSES_COLLECTION = "sorted";
 
 export interface House {
   id?: string;
@@ -53,6 +55,12 @@ export interface Log {
   paid_amt: number;
   paid_for: string;
   paid_on: string;
+}
+
+export interface Sorted {
+  id?: string;
+  area_id: string;
+  house_ids: string[];
 }
 
 interface SetAreasAction {
@@ -95,6 +103,11 @@ interface DeleteHouseAction {
   id: string;
 }
 
+interface SetSortedHousesAction {
+  type: typeof SET_SORTED_HOUSES;
+  sorted: Sorted;
+}
+
 interface SetLoadingStatusAction {
   type: typeof SET_LOADING;
   loading: boolean;
@@ -116,6 +129,7 @@ export type HouseActionTypes =
   | AddHouseAction
   | UpdateHouseAction
   | DeleteHouseAction
+  | SetSortedHousesAction
   | SetLogsAction;
 
 export type CommonActionTypes = SetLoadingStatusAction;

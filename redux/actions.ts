@@ -13,6 +13,8 @@ import {
   SET_HOUSES,
   SET_LOADING,
   SET_LOGS,
+  SET_SORTED_HOUSES,
+  Sorted,
   UPDATE_AREA,
   UPDATE_HOUSE,
 } from "./types";
@@ -55,6 +57,11 @@ export const updateHouse = (house: House): HouseActionTypes => ({
 export const deleteHouse = (id: string): HouseActionTypes => ({
   type: DELETE_HOUSE,
   id,
+});
+
+export const setSortedHouses = (sorted: Sorted): HouseActionTypes => ({
+  type: SET_SORTED_HOUSES,
+  sorted,
 });
 
 export const setLogs = (logs: Log[]): HouseActionTypes => ({

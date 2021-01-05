@@ -5,16 +5,25 @@ import moment from "moment";
 import { setLoading } from "../../redux/actions";
 import { getLoadingSl } from "../../redux/selectors";
 import { addHouseThunk, updateHouseThunk } from "../../redux/thunk";
-import { CREATED_FORMAT, EDIT_LABEL, House } from "../../redux/types";
+import { CREATED_FORMAT, EDIT_LABEL, House, Sorted } from "../../redux/types";
 
 export interface HouseFormProps {
+  sorted: Sorted;
   house: House | null;
   areaId: string;
+  indexToAdd: number;
   type: string;
   isMobile: boolean;
 }
 
-const HouseForm: FC<HouseFormProps> = ({ house, areaId, type, isMobile }) => {
+const HouseForm: FC<HouseFormProps> = ({
+  sorted,
+  indexToAdd,
+  house,
+  areaId,
+  type,
+  isMobile,
+}) => {
   const [form] = Form.useForm();
   const loading = useSelector(getLoadingSl);
   const dispatch = useDispatch();
@@ -39,7 +48,7 @@ const HouseForm: FC<HouseFormProps> = ({ house, areaId, type, isMobile }) => {
     } else {
       const createdOn = moment().format(CREATED_FORMAT).toString();
       newHouse.created_on = createdOn;
-      dispatch(addHouseThunk(newHouse));
+      dispatch(addHouseThunk(newHouse, sorted, indexToAdd));
     }
   };
 
