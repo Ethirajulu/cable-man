@@ -105,7 +105,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
     dispatch(setLoading(false));
   }, [houses]);
 
-  const onAddClick = (index) => {
+  const onAddClick = (index = -1) => {
     setIndexToAdd(index + 1);
     setCurHouse({ ...EMPTY_HOUSE });
     setIsFormOpen(true);
@@ -128,10 +128,11 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
         <Header
           title={areaName}
           back
-          showAdd={false}
+          showAdd
           filter={onSearchFilterChange}
           loading={loading}
           isMobile={screen.xs}
+          onAddClick={onAddClick}
         />
       </div>
       <div className="content">
