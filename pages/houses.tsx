@@ -91,7 +91,7 @@ const Houses: NextPage<HousesProps> = ({ areaName, areaId }) => {
       const filteredHouses = filteredHousesByStatus.filter(
         (house) =>
           house.name.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1 ||
-          house.box_no.indexOf(searchFilter) === 0
+          house.box_no?.indexOf(searchFilter) === 0
       );
       setHousesFiltered(filteredHouses);
       setFiltered(true);
